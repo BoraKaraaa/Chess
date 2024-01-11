@@ -283,7 +283,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &24643185
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,8 +397,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7500e95643c59ca4499314258e4d3b6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 2
+  value: 0
 --- !u!1 &31072352
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,7 +444,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d336c3087599ba43a40fcf42ce4408b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableInputListener: 1
 --- !u!1 &31302599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,7 +1016,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &79616159
 GameObject:
   m_ObjectHideFlags: 0
@@ -1207,7 +1211,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &97865821
 GameObject:
   m_ObjectHideFlags: 0
@@ -1368,7 +1374,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &117050095
 GameObject:
   m_ObjectHideFlags: 0
@@ -1542,7 +1550,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &148078961
 GameObject:
   m_ObjectHideFlags: 0
@@ -1832,7 +1842,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &159445168
 GameObject:
   m_ObjectHideFlags: 0
@@ -2139,8 +2151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41036cd440d35cd448c994c64ca1cfe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 5
+  value: 0
 --- !u!1 &200983482
 GameObject:
   m_ObjectHideFlags: 0
@@ -2354,8 +2367,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &212411606
 GameObject:
   m_ObjectHideFlags: 0
@@ -2632,8 +2646,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996acaa29969eb04f95fafc9f4f3e3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 1
+  value: 0
 --- !u!1 &224451993
 GameObject:
   m_ObjectHideFlags: 0
@@ -3290,7 +3305,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &272110364
 GameObject:
   m_ObjectHideFlags: 0
@@ -4169,8 +4186,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996acaa29969eb04f95fafc9f4f3e3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 1
+  value: 0
 --- !u!1 &335944375
 GameObject:
   m_ObjectHideFlags: 0
@@ -4300,7 +4318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &347622495
 GameObject:
   m_ObjectHideFlags: 0
@@ -4443,7 +4463,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &362958449
 GameObject:
   m_ObjectHideFlags: 0
@@ -4554,8 +4576,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c74802b96d969574081086ec33d27ff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 3
+  value: 0
 --- !u!1 &386008425
 GameObject:
   m_ObjectHideFlags: 0
@@ -4634,8 +4657,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c74802b96d969574081086ec33d27ff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 3
+  value: 0
 --- !u!1 &391775214
 GameObject:
   m_ObjectHideFlags: 0
@@ -4681,7 +4705,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &401847601
 GameObject:
   m_ObjectHideFlags: 0
@@ -4876,7 +4902,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &444318169
 GameObject:
   m_ObjectHideFlags: 0
@@ -5191,7 +5219,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &469201912
 GameObject:
   m_ObjectHideFlags: 0
@@ -5237,7 +5267,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &470886594
 GameObject:
   m_ObjectHideFlags: 0
@@ -5482,8 +5514,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &487554001
 GameObject:
   m_ObjectHideFlags: 0
@@ -5529,7 +5562,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &489162154
 GameObject:
   m_ObjectHideFlags: 0
@@ -5711,8 +5746,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996acaa29969eb04f95fafc9f4f3e3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 1
+  value: 0
 --- !u!1 &497393117
 GameObject:
   m_ObjectHideFlags: 0
@@ -5907,7 +5943,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &514517929
 GameObject:
   m_ObjectHideFlags: 0
@@ -5953,7 +5991,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &517761853
 GameObject:
   m_ObjectHideFlags: 0
@@ -6383,8 +6423,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &551411838
 GameObject:
   m_ObjectHideFlags: 0
@@ -7029,7 +7070,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &591068191
 GameObject:
   m_ObjectHideFlags: 0
@@ -7159,7 +7202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &594934954
 GameObject:
   m_ObjectHideFlags: 0
@@ -7496,6 +7541,50 @@ Transform:
   m_Father: {fileID: 1039831142}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &644483888
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 644483889}
+  - component: {fileID: 644483890}
+  m_Layer: 0
+  m_Name: EvilBot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &644483889
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644483888}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1878788437}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &644483890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644483888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4186d660930cf2647bb30e0162573a06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &646239657
 GameObject:
   m_ObjectHideFlags: 0
@@ -7541,7 +7630,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &654625211
 GameObject:
   m_ObjectHideFlags: 0
@@ -7766,7 +7857,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &677176154
 GameObject:
   m_ObjectHideFlags: 0
@@ -8013,8 +8106,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &691188527
 GameObject:
   m_ObjectHideFlags: 0
@@ -8060,7 +8154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &696022646
 GameObject:
   m_ObjectHideFlags: 0
@@ -8254,8 +8350,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecc4baf679ec22f40b6b47bc5df6f7df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 4
+  value: 0
 --- !u!1 &710415973
 GameObject:
   m_ObjectHideFlags: 0
@@ -8501,8 +8598,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7500e95643c59ca4499314258e4d3b6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 2
+  value: 0
 --- !u!1 &734413925
 GameObject:
   m_ObjectHideFlags: 0
@@ -8548,7 +8646,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &750409721
 GameObject:
   m_ObjectHideFlags: 0
@@ -8658,7 +8758,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &762307128
 GameObject:
   m_ObjectHideFlags: 0
@@ -8737,8 +8839,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &770812461
 GameObject:
   m_ObjectHideFlags: 0
@@ -9129,7 +9232,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &797001483
 GameObject:
   m_ObjectHideFlags: 0
@@ -9260,8 +9365,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7500e95643c59ca4499314258e4d3b6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 2
+  value: 0
 --- !u!1 &799939826
 GameObject:
   m_ObjectHideFlags: 0
@@ -9475,7 +9581,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &823454351
 GameObject:
   m_ObjectHideFlags: 0
@@ -9671,8 +9779,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &850451577
 GameObject:
   m_ObjectHideFlags: 0
@@ -9718,7 +9827,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &855440126
 GameObject:
   m_ObjectHideFlags: 0
@@ -9945,7 +10056,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &893695784
 GameObject:
   m_ObjectHideFlags: 0
@@ -10286,8 +10399,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &931954818
 GameObject:
   m_ObjectHideFlags: 0
@@ -10333,7 +10447,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &932412156
 GameObject:
   m_ObjectHideFlags: 0
@@ -10410,7 +10526,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &941286830
 GameObject:
   m_ObjectHideFlags: 0
@@ -11240,7 +11358,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1039831141
 GameObject:
   m_ObjectHideFlags: 0
@@ -11287,8 +11407,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &1042206086
 GameObject:
   m_ObjectHideFlags: 0
@@ -11451,7 +11572,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1056094750
 GameObject:
   m_ObjectHideFlags: 0
@@ -11497,7 +11620,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1066743055
 GameObject:
   m_ObjectHideFlags: 0
@@ -11543,7 +11668,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1069227438
 GameObject:
   m_ObjectHideFlags: 0
@@ -11620,7 +11747,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1077588186
 GameObject:
   m_ObjectHideFlags: 0
@@ -12642,7 +12771,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1169254825
 GameObject:
   m_ObjectHideFlags: 0
@@ -12688,7 +12819,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1174811301
 GameObject:
   m_ObjectHideFlags: 0
@@ -12934,7 +13067,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1185644410
 GameObject:
   m_ObjectHideFlags: 0
@@ -13073,7 +13208,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1201357201
 GameObject:
   m_ObjectHideFlags: 0
@@ -13278,8 +13415,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &1210810240
 GameObject:
   m_ObjectHideFlags: 0
@@ -13557,8 +13695,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &1233419170
 GameObject:
   m_ObjectHideFlags: 0
@@ -13636,7 +13775,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1234570614
 GameObject:
   m_ObjectHideFlags: 0
@@ -13682,7 +13823,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1237965021
 GameObject:
   m_ObjectHideFlags: 0
@@ -14041,7 +14184,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1262344693
 GameObject:
   m_ObjectHideFlags: 0
@@ -14171,7 +14316,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1267475748
 GameObject:
   m_ObjectHideFlags: 0
@@ -14531,7 +14678,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1291987773
 GameObject:
   m_ObjectHideFlags: 0
@@ -14706,7 +14855,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1317954723
 GameObject:
   m_ObjectHideFlags: 0
@@ -14965,7 +15116,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1332425088
 GameObject:
   m_ObjectHideFlags: 0
@@ -15221,7 +15374,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1368701286
 GameObject:
   m_ObjectHideFlags: 0
@@ -15299,8 +15454,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &1370975471
 GameObject:
   m_ObjectHideFlags: 0
@@ -15347,8 +15503,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41036cd440d35cd448c994c64ca1cfe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 5
+  value: 0
 --- !u!1 &1371958115
 GameObject:
   m_ObjectHideFlags: 0
@@ -15478,7 +15635,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1390109648
 GameObject:
   m_ObjectHideFlags: 0
@@ -15792,7 +15951,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1420711352
 GameObject:
   m_ObjectHideFlags: 0
@@ -15997,8 +16158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c74802b96d969574081086ec33d27ff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 3
+  value: 0
 --- !u!1 &1450958577
 GameObject:
   m_ObjectHideFlags: 0
@@ -16308,7 +16470,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1480506201
 GameObject:
   m_ObjectHideFlags: 0
@@ -16354,7 +16518,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1481568457
 GameObject:
   m_ObjectHideFlags: 0
@@ -16497,8 +16663,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &1510994761
 GameObject:
   m_ObjectHideFlags: 0
@@ -16744,7 +16911,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1521870799
 GameObject:
   m_ObjectHideFlags: 0
@@ -16822,7 +16991,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1533730942
 GameObject:
   m_ObjectHideFlags: 0
@@ -17196,7 +17367,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1596814412
 GameObject:
   m_ObjectHideFlags: 0
@@ -17308,8 +17481,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &1606190528
 GameObject:
   m_ObjectHideFlags: 0
@@ -17418,7 +17592,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1626192659
 GameObject:
   m_ObjectHideFlags: 0
@@ -18218,7 +18394,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1725580218
 GameObject:
   m_ObjectHideFlags: 0
@@ -18265,8 +18443,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &1733687965
 GameObject:
   m_ObjectHideFlags: 0
@@ -18448,8 +18627,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996acaa29969eb04f95fafc9f4f3e3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 1
+  value: 0
 --- !u!1 &1738061166
 GameObject:
   m_ObjectHideFlags: 0
@@ -18771,8 +18951,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 0
+  value: 0
 --- !u!1 &1773458263
 GameObject:
   m_ObjectHideFlags: 0
@@ -19165,8 +19346,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7500e95643c59ca4499314258e4d3b6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 2
+  value: 0
 --- !u!1 &1812344630
 GameObject:
   m_ObjectHideFlags: 0
@@ -19361,8 +19543,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecc4baf679ec22f40b6b47bc5df6f7df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 4
+  value: 0
 --- !u!1 &1841807200
 GameObject:
   m_ObjectHideFlags: 0
@@ -19705,7 +19888,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1878788436
 GameObject:
   m_ObjectHideFlags: 0
@@ -19734,7 +19919,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 644483889}
+  - {fileID: 2067681011}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19750,6 +19937,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3bd069767379614cad284ce776ca879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  whiteChessBot: {fileID: 644483890}
+  blackChessBot: {fileID: 2067681012}
 --- !u!1 &1896753148
 GameObject:
   m_ObjectHideFlags: 0
@@ -19827,7 +20016,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1900591719
 GameObject:
   m_ObjectHideFlags: 0
@@ -20304,7 +20495,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1949281902
 GameObject:
   m_ObjectHideFlags: 0
@@ -20350,7 +20543,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &1952054210
 GameObject:
   m_ObjectHideFlags: 0
@@ -20397,8 +20592,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c74802b96d969574081086ec33d27ff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
   eChessPiece: 3
+  value: 0
 --- !u!1 &1959901982
 GameObject:
   m_ObjectHideFlags: 0
@@ -20731,7 +20927,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &2012200404
 GameObject:
   m_ObjectHideFlags: 0
@@ -20956,7 +21154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &2051540249
 GameObject:
   m_ObjectHideFlags: 0
@@ -21203,8 +21403,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 0
   eChessPiece: 0
+  value: 0
+--- !u!1 &2067681010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2067681011}
+  - component: {fileID: 2067681012}
+  m_Layer: 0
+  m_Name: MyBot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2067681011
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2067681010}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1878788437}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2067681012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2067681010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4330aa9065758d04cba6c6d30871fd94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2091915551
 GameObject:
   m_ObjectHideFlags: 0
@@ -21281,7 +21526,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &2104242719
 GameObject:
   m_ObjectHideFlags: 0
@@ -21546,7 +21793,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &2122655190
 GameObject:
   m_ObjectHideFlags: 0
@@ -21592,7 +21841,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 0
+  eColor: 0
+  row: 0
+  col: 0
 --- !u!1 &2129893534
 GameObject:
   m_ObjectHideFlags: 0
