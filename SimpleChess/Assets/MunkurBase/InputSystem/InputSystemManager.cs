@@ -1,10 +1,16 @@
 using UnityEngine;
+//using UnityEngine.InputSystem;
 using System;
+//using System.Collections.Generic;
+using TouchPhase = UnityEngine.TouchPhase;
 
 namespace Munkur
 {
     public class InputSystemManager : SingletonPersistent<InputSystemManager>
     {
+        #region MouseAndTouchInput
+        [Space(5)]
+        [Header("Mouse And Touch Input")]
         public Action<Vector2> OnInputStarted;
         public Action<Vector2> OnInputContinued;
         public Action<Vector2> OnInputFinished;
@@ -68,5 +74,17 @@ namespace Munkur
                 OnInputContinued?.Invoke(Input.mousePosition);
             }
         }
+
+        #endregion
+        
+        /*
+        #region KeyboardAndJoystickInput
+
+        [Header("Keyboard And Joystick Input")]
+        [Space(10)]
+        [SerializeField] private List<InputAction> _inputActions;
+
+        #endregion
+        */
     }
 }

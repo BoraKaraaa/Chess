@@ -23,12 +23,12 @@ public class Clickable2D : MonoBehaviour
     
     private void Awake()
     { 
-        InputSystemManager.Instance.OnInputStarted += OnClick;
+        MouseInputSystemManager.Instance.OnMouseLeftClicked += OnClick;
     }
 
     private void OnDestroy() 
     {
-        InputSystemManager.Instance.OnInputStarted -= OnClick;    
+        MouseInputSystemManager.Instance.OnMouseLeftClicked -= OnClick;    
     }
 
     public virtual void OnClick(Vector2 mousePosition) 

@@ -11,11 +11,11 @@ public class ChessBoard : Singleton<ChessBoard>
     
     [SerializeField] private float squareDistance;
     
-    private const int row = 8; 
-    private const int col = 8;
+    private const int height = 8; 
+    private const int width = 8;
 
-    public int Row => row;
-    public int Col => col;
+    public int Height => height;
+    public int Width => width;
 
     private Square[][] board;
 
@@ -26,19 +26,19 @@ public class ChessBoard : Singleton<ChessBoard>
     {
         ClearSquares();
 
-        board = new Square[row][];
+        board = new Square[height][];
         
         Vector3 currentSquarePos = boardStartPos.position;
 
         float defXval = currentSquarePos.x;
 
-        for (int i = 0; i < row; i++)
+        for (int i = 0; i < height; i++)
         {
             currentSquarePos.x = defXval;
 
-            board[i] = new Square[col];
+            board[i] = new Square[width];
             
-            for (int j = 0; j < col; j++)
+            for (int j = 0; j < width; j++)
             {
                 if ((i + j) % 2 == 0)
                 {

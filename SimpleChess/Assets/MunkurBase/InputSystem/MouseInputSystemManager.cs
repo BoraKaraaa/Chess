@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using System;
 
 namespace Munkur
 {
@@ -10,27 +10,20 @@ namespace Munkur
         //public Action<Vector2> OnMouseScrollClicked;
         public Action<Vector2> OnMouseDragged;
         public Action<Vector2> OnMouseReleased;
-    
-        [SerializeField] private bool enableInputListener = false;
-    
-        public bool EnableInputListener => enableInputListener;
 
         private void Update()
         {
-            if(enableInputListener)
+            if (Input.GetMouseButtonDown(0))
             {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    OnMouseLeftClicked?.Invoke(Input.mousePosition);
-                }
-                else if(Input.GetMouseButtonUp(0))
-                {
-                    OnMouseReleased?.Invoke(Input.mousePosition);
-                }
-                else if (Input.GetMouseButton(0))
-                {
-                    OnMouseDragged?.Invoke(Input.mousePosition);
-                }
+                OnMouseLeftClicked?.Invoke(Input.mousePosition);
+            }
+            else if(Input.GetMouseButtonUp(0))
+            {
+                OnMouseReleased?.Invoke(Input.mousePosition);
+            }
+            else if (Input.GetMouseButton(0))
+            {
+                OnMouseDragged?.Invoke(Input.mousePosition);
             }
         }
     }

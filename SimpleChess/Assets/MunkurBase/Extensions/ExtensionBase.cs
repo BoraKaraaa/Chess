@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using DG.Tweening;
 using Object = UnityEngine.Object;
 
 public static class ExtensionBase
@@ -45,5 +46,30 @@ public static class ExtensionBase
     {
         Object.Destroy(other);
         Object.Destroy(transform);
+    }
+
+    // Tween related //
+    public static void DORotateX(this Transform transform, float endValue, float duration)
+    {
+        Vector3 endVector = transform.position;
+        endVector.SetX(endValue);
+
+        transform.DORotate(endVector, duration);
+    }
+
+    public static void DORotateY(this Transform transform, float endValue, float duration)
+    {
+        Vector3 endVector = transform.position;
+        endVector.SetY(endValue);
+
+        transform.DORotate(endVector, duration);
+    }
+
+    public static void DORotateZ(this Transform transform, float endValue, float duration)
+    {
+        Vector3 endVector = transform.position;
+        endVector.SetZ(endValue);
+
+        transform.DORotate(endVector, duration);
     }
 }
