@@ -1,11 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class Knight : ChessPiece
 {
-    public override (Square[], Square[]) LegalMoveSquares()
+    public override (Move[], Move[]) GetLegalMoves()
     {
         throw new System.NotImplementedException();
+    }
+
+    public override string GetChessPieceNotationChar()
+    {
+        return "N";
     }
 }

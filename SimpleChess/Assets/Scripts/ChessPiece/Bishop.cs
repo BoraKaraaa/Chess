@@ -1,8 +1,13 @@
 
 public class Bishop : ChessPiece
 {
-    public override (Square[], Square[]) LegalMoveSquares()
+    public override (Move[], Move[]) GetLegalMoves()
     {
-        return ChessBoardAPI.CheckDiagonalMoves(square, 7, eColor);
+        return ChessBoardAPI.CheckDiagonalMoves(this, square, 7, eColor);
+    }
+
+    public override string GetChessPieceNotationChar()
+    {
+        return "B";
     }
 }

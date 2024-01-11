@@ -12,7 +12,9 @@ public class Move
     
     public bool IsChecked;
     public bool IsCaptured;
-
+    
+    // TODO: Calculate IsChecked Value
+    
     public Move(String moveNotation, Square initialSquare, Square movedSquare, ChessPiece movedChessPiece,
         ChessPiece capturedChessPiece, bool isChecked, bool isCaptured)
     {

@@ -7,6 +7,13 @@ public class Square : MonoBehaviour
     [SerializeField] private int row;
     [SerializeField] private int col;
 
+    [SerializeField] private string squareNotation;
+    public string SquareNotation
+    {
+        get => squareNotation;
+        set => squareNotation = value;
+    }
+
     public int Row => row;
     public int Col => col;
 

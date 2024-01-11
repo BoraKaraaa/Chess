@@ -31,7 +31,7 @@ public abstract class ChessPiece : MonoBehaviour
         set => square = value;
     }
     
-    public abstract (Square[], Square[]) LegalMoveSquares();
+    public abstract (Move[], Move[]) GetLegalMoves();
     
     protected void Move(Square movedSquare)
     {
@@ -44,6 +44,17 @@ public abstract class ChessPiece : MonoBehaviour
 
     protected void Captured()
     {
+        if (eColor == EColor.WHITE)
+        {
+            ChessPieceSpawner.Instance.WhitePieces.Remove(this);
+        }
+        else
+        {
+            ChessPieceSpawner.Instance.BlackPieces.Remove(this);
+        }
+        
         Destroy(this.gameObject);
     }
+
+    public abstract string GetChessPieceNotationChar();
 }

@@ -1,7 +1,7 @@
 
 public class Pawn : ChessPiece
 {
-    public override (Square[], Square[]) LegalMoveSquares()
+    public override (Move[], Move[]) GetLegalMoves()
     {
         if (square.IsSecondRowForColor(eColor))
         {
@@ -11,5 +11,10 @@ public class Pawn : ChessPiece
         {
             return ChessBoardAPI.CheckVerticalMoves(this, square, 1, eColor);
         }
+    }
+
+    public override string GetChessPieceNotationChar()
+    {
+        return "";
     }
 }

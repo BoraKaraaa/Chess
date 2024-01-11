@@ -1,8 +1,13 @@
 
 public class King : ChessPiece
 {
-    public override (Square[], Square[]) LegalMoveSquares()
+    public override (Move[], Move[]) GetLegalMoves()
     {
-        return ChessBoardAPI.CheckAroundMoves(square, 1, eColor);
+        return ChessBoardAPI.CheckAroundMoves(this, square, 1, eColor);
+    }
+
+    public override string GetChessPieceNotationChar()
+    {
+        return "K";
     }
 }
