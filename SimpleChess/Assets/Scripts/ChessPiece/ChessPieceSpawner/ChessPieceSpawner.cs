@@ -41,53 +41,142 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
         // Spawn Pawns
         for (int i = 0; i < chessBoard.Width; i++)
         {
-            WhitePieces.Add(Instantiate(whitePawn, chessBoard.Board[1][i].transform.position, 
-                Quaternion.identity, chessPieceParent));
-            BlackPieces.Add(Instantiate(blackPawn, chessBoard.Board[6][i].transform.position, 
-                Quaternion.identity, chessPieceParent));
+            Pawn createdWhitePawn = Instantiate(whitePawn, chessBoard.Board[1][i].transform.position,
+                Quaternion.identity, chessPieceParent);
+            
+            createdWhitePawn.Square = chessBoard.Board[1][i];
+            createdWhitePawn.Square.ChessPiece = createdWhitePawn;
+            WhitePieces.Add(createdWhitePawn);
+
+            Pawn createdBlackPawn = Instantiate(blackPawn, chessBoard.Board[6][i].transform.position,
+                Quaternion.identity, chessPieceParent);
+            
+            createdBlackPawn.Square = chessBoard.Board[6][i];
+            createdBlackPawn.Square.ChessPiece = createdBlackPawn;
+            BlackPieces.Add(createdBlackPawn);
         }
         
         // Spawn Knights
-        WhitePieces.Add(Instantiate(whiteKnight, chessBoard.Board[0][1].transform.position,
-            Quaternion.identity, chessPieceParent));
-        WhitePieces.Add(Instantiate(whiteKnight, chessBoard.Board[0][6].transform.position,
-            Quaternion.identity, chessPieceParent));
-        BlackPieces.Add(Instantiate(blackKnight, chessBoard.Board[7][1].transform.position, 
-            Quaternion.identity, chessPieceParent));
-        BlackPieces.Add(Instantiate(blackKnight, chessBoard.Board[7][6].transform.position,
-            Quaternion.identity, chessPieceParent));
+
+        Knight createdWhiteKnight = Instantiate(whiteKnight, chessBoard.Board[0][1].transform.position,
+            Quaternion.identity, chessPieceParent);
+
+        createdWhiteKnight.Square = chessBoard.Board[0][1];
+        createdWhiteKnight.Square.ChessPiece = createdWhiteKnight;
+        WhitePieces.Add(createdWhiteKnight);
+
+        createdWhiteKnight = Instantiate(whiteKnight, chessBoard.Board[0][6].transform.position,
+            Quaternion.identity, chessPieceParent);
+        
+        createdWhiteKnight.Square = chessBoard.Board[0][6];
+        createdWhiteKnight.Square.ChessPiece = createdWhiteKnight;
+        WhitePieces.Add(createdWhiteKnight);
+
+        Knight createdBlackKnight = Instantiate(blackKnight, chessBoard.Board[7][1].transform.position,
+            Quaternion.identity, chessPieceParent);
+
+        createdBlackKnight.Square = chessBoard.Board[7][1];
+        createdBlackKnight.Square.ChessPiece = createdBlackKnight;
+        BlackPieces.Add(createdBlackKnight);
+
+        createdBlackKnight = Instantiate(blackKnight, chessBoard.Board[7][6].transform.position,
+            Quaternion.identity, chessPieceParent);
+
+        createdBlackKnight.Square = chessBoard.Board[7][6];
+        createdBlackKnight.Square.ChessPiece = createdBlackKnight;
+        BlackPieces.Add(createdBlackKnight);
         
         // Spawn Bishops
-        WhitePieces.Add(Instantiate(whiteBishop, chessBoard.Board[0][2].transform.position, 
-            Quaternion.identity, chessPieceParent));
-        WhitePieces.Add(Instantiate(whiteBishop, chessBoard.Board[0][5].transform.position,
-            Quaternion.identity, chessPieceParent));
-        BlackPieces.Add(Instantiate(blackBishop, chessBoard.Board[7][2].transform.position,
-            Quaternion.identity, chessPieceParent));
-        BlackPieces.Add(Instantiate(blackBishop, chessBoard.Board[7][5].transform.position, 
-            Quaternion.identity, chessPieceParent));
+
+        Bishop createdWhiteBishop = Instantiate(whiteBishop, chessBoard.Board[0][2].transform.position,
+            Quaternion.identity, chessPieceParent);
+
+        createdWhiteBishop.Square = chessBoard.Board[0][2];
+        createdWhiteBishop.Square.ChessPiece = createdWhiteBishop;
+        WhitePieces.Add(createdWhiteBishop);
+
+        createdWhiteBishop = Instantiate(whiteBishop, chessBoard.Board[0][5].transform.position,
+            Quaternion.identity, chessPieceParent);
+
+        createdWhiteBishop.Square = chessBoard.Board[0][5];
+        createdWhiteBishop.Square.ChessPiece = createdWhiteBishop;
+        WhitePieces.Add(createdWhiteBishop);
+
+        Bishop createdBlackBishop = Instantiate(blackBishop, chessBoard.Board[7][2].transform.position,
+            Quaternion.identity, chessPieceParent);
+
+        createdBlackBishop.Square = chessBoard.Board[7][2];
+        createdBlackBishop.Square.ChessPiece = createdBlackBishop;
+        BlackPieces.Add(createdBlackBishop);
+
+        createdBlackBishop = Instantiate(blackBishop, chessBoard.Board[7][5].transform.position,
+            Quaternion.identity, chessPieceParent);
+        
+        createdBlackBishop.Square = chessBoard.Board[7][5];
+        createdBlackBishop.Square.ChessPiece = createdBlackBishop;
+        BlackPieces.Add(createdBlackBishop);
         
         // Spawn Rooks
-        WhitePieces.Add(Instantiate(whiteRook, chessBoard.Board[0][0].transform.position,
-            Quaternion.identity, chessPieceParent));
-        WhitePieces.Add(Instantiate(whiteRook, chessBoard.Board[0][7].transform.position,
-            Quaternion.identity, chessPieceParent));
-        BlackPieces.Add(Instantiate(blackRook, chessBoard.Board[7][0].transform.position,
-            Quaternion.identity, chessPieceParent));
-        BlackPieces.Add(Instantiate(blackRook, chessBoard.Board[7][7].transform.position, 
-            Quaternion.identity, chessPieceParent));
+
+        Rook createdWhiteRook = Instantiate(whiteRook, chessBoard.Board[0][0].transform.position,
+            Quaternion.identity, chessPieceParent);
+
+        createdWhiteRook.Square = chessBoard.Board[0][0];
+        createdWhiteRook.Square.ChessPiece = createdWhiteRook;
+        WhitePieces.Add(createdWhiteRook);
+
+        createdWhiteRook = Instantiate(whiteRook, chessBoard.Board[0][7].transform.position,
+            Quaternion.identity, chessPieceParent);
+
+        createdWhiteRook.Square = chessBoard.Board[0][7];
+        createdWhiteRook.Square.ChessPiece = createdWhiteRook;
+        WhitePieces.Add(createdWhiteRook);
+
+        createdWhiteRook = Instantiate(blackRook, chessBoard.Board[7][0].transform.position,
+            Quaternion.identity, chessPieceParent);
+
+        createdWhiteRook.Square = chessBoard.Board[7][0];
+        createdWhiteRook.Square.ChessPiece = createdWhiteRook;
+        BlackPieces.Add(createdWhiteRook);
+
+        createdWhiteRook = Instantiate(blackRook, chessBoard.Board[7][7].transform.position,
+            Quaternion.identity, chessPieceParent);
+
+        createdWhiteRook.Square = chessBoard.Board[7][7];
+        createdWhiteRook.Square.ChessPiece = createdWhiteRook;
+        BlackPieces.Add(createdWhiteRook);
         
         // SpawnQueens
-        WhitePieces.Add(Instantiate(whiteQueen, chessBoard.Board[0][3].transform.position, 
-            Quaternion.identity, chessPieceParent));
-        BlackPieces.Add(Instantiate(blackQueen, chessBoard.Board[7][3].transform.position, 
-            Quaternion.identity, chessPieceParent));
+
+        Queen createdWhiteQueen = Instantiate(whiteQueen, chessBoard.Board[0][3].transform.position,
+            Quaternion.identity, chessPieceParent);
+
+        createdWhiteQueen.Square = chessBoard.Board[0][3];
+        createdWhiteQueen.Square.ChessPiece = createdWhiteQueen;
+        WhitePieces.Add(createdWhiteQueen);
+
+        Queen createdBlackQueen = Instantiate(blackQueen, chessBoard.Board[7][3].transform.position,
+            Quaternion.identity, chessPieceParent);
+
+        createdBlackQueen.Square = chessBoard.Board[7][3];
+        createdBlackQueen.Square.ChessPiece = createdBlackQueen;
+        BlackPieces.Add(createdBlackQueen);
         
         // Spawn Kings
-        WhitePieces.Add(Instantiate(whiteKing, chessBoard.Board[0][4].transform.position,
-            Quaternion.identity, chessPieceParent));
-        BlackPieces.Add(Instantiate(blackKing, chessBoard.Board[7][4].transform.position, 
-            Quaternion.identity, chessPieceParent));
+
+        King createdWhiteKing = Instantiate(whiteKing, chessBoard.Board[0][4].transform.position,
+            Quaternion.identity, chessPieceParent);
+
+        createdWhiteKing.Square = chessBoard.Board[0][4];
+        createdWhiteKing.Square.ChessPiece = createdWhiteKing;
+        WhitePieces.Add(createdWhiteKing);
+
+        King createdBlackKing = Instantiate(blackKing, chessBoard.Board[7][4].transform.position,
+            Quaternion.identity, chessPieceParent);
+
+        createdBlackKing.Square = chessBoard.Board[7][4];
+        createdBlackKing.Square.ChessPiece = createdBlackKing;
+        BlackPieces.Add(createdBlackKing);
     }
 
     private void ClearChessPieces()

@@ -14,11 +14,25 @@ public class Square : MonoBehaviour
         set => squareNotation = value;
     }
 
-    public int Row => row;
-    public int Col => col;
+    public int Row
+    {
+        get => row;
+        set => row = value;
+    }
+    
+    public int Col
+    {
+        get => col;
+        set => col = value;
+    }
 
-    private ChessPiece chessPiece = null;
-    public ChessPiece ChessPiece => chessPiece;
+    [SerializeField] private ChessPiece chessPiece;
+
+    public ChessPiece ChessPiece
+    {
+        get => chessPiece;
+        set => chessPiece = value;
+    }
 
     public bool IsSquareEmpty()
     {

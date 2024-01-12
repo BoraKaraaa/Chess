@@ -258,8 +258,62 @@ public static class ChessBoardAPI
 
         return (checkAroundMoves.ToArray(), checkAroundCaptureMoves.ToArray());
     }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static (Move[], Move[]) CheckLMoves(ChessPiece chessPiece, Square refSquare, EColor currentPlayerColor)
+    {
+        List<Move> LMoves = new List<Move>();
+        List<Move> LCaptureMoves = new List<Move>();
     
-    
-    
+        int refSquareRow = refSquare.Row;
+        int refSquareCol = refSquare.Col;
+        
+        int[][] knightMoves = 
+        {
+            new int[] { 1, 2 },
+            new int[] { 2, 1 },
+            new int[] { -1, 2 },
+            new int[] { -2, 1 },
+            new int[] { 1, -2 },
+            new int[] { 2, -1 },
+            new int[] { -1, -2 },
+            new int[] { -2, -1 }
+        };
+        
+        foreach (var move in knightMoves)
+        {
+            int newRow = refSquareRow + move[0];
+            int newCol = refSquareCol + move[1];
+            
+            if (IsInsideBounds(newRow, newCol))
+            {
+                Square targetSquare = ChessBoard.Instance.Board[newRow][newCol];
+                
+                if (targetSquare.IsSquareEmpty())
+                {
+                    Move legalMove = new Move(GetSquareNotation(chessPiece, targetSquare),
+                        refSquare, targetSquare, chessPiece,
+                        null, false, false);
+                    
+                    LMoves.Add(legalMove);
+                }
+                
+                if (!targetSquare.IsSquareEmpty() && targetSquare.ChessPiece.EColor != currentPlayerColor)
+                {
+                    Move captureMove = new Move(GetSquareNotation(chessPiece, targetSquare, targetSquare.ChessPiece),
+                        refSquare, targetSquare, chessPiece,
+                        targetSquare.ChessPiece, false, true);
+                    
+                    LMoves.Add(captureMove);
+                    LCaptureMoves.Add(captureMove); 
+                }
+            }
+        }
+
+        return (LMoves.ToArray(), LCaptureMoves.ToArray());
+    }
     
 }

@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -17,10 +18,10 @@ public abstract class ChessPiece : MonoBehaviour
     [SerializeField] protected EChessPiece eChessPiece;
 
     [SerializeField] protected int value;
+    
+    [SerializeField] protected Square square;
 
-    protected Square square;
-
-    private float moveDuration = 0.1f;
+    private float moveDuration = 0.2f;
 
     public EColor EColor => eColor;
     public EChessPiece EChessPiece => eChessPiece;
@@ -33,16 +34,18 @@ public abstract class ChessPiece : MonoBehaviour
     
     public abstract (Move[], Move[]) GetLegalMoves();
     
-    protected void Move(Square movedSquare)
+    public void Move(Square movedSquare, Action OnMoved)
     {
-        // Init Move
+        square.ChessPiece = null;
+        square = movedSquare;
+        
         transform.DOMove(movedSquare.transform.position, moveDuration).OnComplete(() =>
         {
-            
+            OnMoved?.Invoke();
         });
     }
 
-    protected void Captured()
+    public void Captured()
     {
         if (eColor == EColor.WHITE)
         {
@@ -52,7 +55,8 @@ public abstract class ChessPiece : MonoBehaviour
         {
             ChessPieceSpawner.Instance.BlackPieces.Remove(this);
         }
-        
+
+        square.ChessPiece = null;
         Destroy(this.gameObject);
     }
 

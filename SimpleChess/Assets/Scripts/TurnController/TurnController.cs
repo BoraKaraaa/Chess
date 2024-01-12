@@ -28,8 +28,15 @@ public class TurnController : Singleton<TurnController>
         get => currentTurn;
         set => currentTurn = value;
     }
-    
-    
+
+    private void Start()
+    {
+        this.WaitForSeconds(1f, () =>
+        {
+            StartNewMatch();
+        });
+    }
+
     public void StartNewMatch()
     {
         // Restart Times
@@ -45,7 +52,7 @@ public class TurnController : Singleton<TurnController>
         {
             if (whiteChessBot != null)
             {
-                whiteChessBot.BestMove();
+                whiteChessBot.Move(MoveMade);
             }
             else
             {
@@ -56,14 +63,21 @@ public class TurnController : Singleton<TurnController>
         {
             if (blackChessBot != null)
             {
-                blackChessBot.BestMove();
+                blackChessBot.Move(MoveMade);
             }
             else
             {
                 StartCoroutine(WaitToMove());
             }
         }
+    }
 
+    private void MoveMade()
+    {
+        StopAllCoroutines();
+
+        currentTurn = currentTurn == EColor.WHITE ? EColor.BLACK : EColor.WHITE;
+        
         if (!ChessAPI.IsCheckMate())
         {
             Turn();
@@ -72,11 +86,6 @@ public class TurnController : Singleton<TurnController>
         {
             // Finish Game
         }
-    }
-
-    public void MoveMaked()
-    {
-        StopAllCoroutines();
     }
     
     private IEnumerator WaitToMove()

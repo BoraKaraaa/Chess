@@ -3,7 +3,7 @@ public class Knight : ChessPiece
 {
     public override (Move[], Move[]) GetLegalMoves()
     {
-        throw new System.NotImplementedException();
+        return ChessBoardAPI.CheckLMoves(this, square, eColor);
     }
 
     public override string GetChessPieceNotationChar()

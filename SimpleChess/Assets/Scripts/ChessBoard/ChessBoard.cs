@@ -1,5 +1,5 @@
-using EasyButtons;
 using UnityEngine;
+using EasyButtons;
 
 public class ChessBoard : Singleton<ChessBoard>
 {
@@ -11,16 +11,15 @@ public class ChessBoard : Singleton<ChessBoard>
     
     [SerializeField] private float squareDistance;
     
+    [SerializeField] private Square[][] board;
+    
     private const int height = 8; 
     private const int width = 8;
 
     public int Height => height;
     public int Width => width;
 
-    private Square[][] board;
-
     public Square[][] Board => board;
-    
     
     private readonly string[][] SQUARE_NOTATION = 
     {
@@ -33,8 +32,27 @@ public class ChessBoard : Singleton<ChessBoard>
         new string[] { "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7" },
         new string[] { "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8" }
     };
-    
-    
+
+    private void Awake()
+    {
+        InitSquareArray();
+    }
+
+    private void InitSquareArray()
+    {
+        board = new Square[8][];
+
+        for (int i = 0; i < 8; i++)
+        {
+            board[i] = new Square[8];
+            
+            for (int j = 0; j < 8; j++)
+            {
+                board[i][j] = squareParentObject.GetChild(i * 8 + j).GetComponent<Square>();
+            }
+        }
+    }
+
     [Button]
     private void InitChessBoard()
     {
@@ -58,11 +76,15 @@ public class ChessBoard : Singleton<ChessBoard>
                 {
                     board[i][j] = Instantiate(blackSquare, currentSquarePos, Quaternion.identity, squareParentObject);
                     board[i][j].SquareNotation = SQUARE_NOTATION[i][j];
+                    board[i][j].Row = i;
+                    board[i][j].Col = j;
                 }
                 else
                 {
                     board[i][j] = Instantiate(whiteSquare, currentSquarePos, Quaternion.identity, squareParentObject);
                     board[i][j].SquareNotation = SQUARE_NOTATION[i][j];
+                    board[i][j].Row = i;
+                    board[i][j].Col = j;
                 }
 
                 currentSquarePos.x += squareDistance;

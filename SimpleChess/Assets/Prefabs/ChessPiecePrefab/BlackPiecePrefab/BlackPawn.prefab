@@ -90,5 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f267135544830942ab8907f88dacd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eTurn: 1
+  eColor: 1
   eChessPiece: 0
+  value: 0
+  square: {fileID: 0}
