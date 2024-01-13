@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum EChessPiece
 {
-    DEFAULT,
+    NONE,
     PAWN,
     KNIGHT,
     BISHOP,
@@ -42,9 +42,11 @@ public abstract class ChessPiece : MonoBehaviour
         set => square = value;
     }
     
-    public abstract (Move[], Move[]) GetLegalMoves(bool controlChecks = true);
+    public abstract (Move[], Move[]) GetLegalMoves();
     
-    public void Move(Move move, Action OnMoved)
+    public abstract bool CanThreatSquare(Square targetSquare);
+    
+    public void Move(Move move, Action<Move> OnMoved)
     {
         Square movedSquare = move.TargetSquare;
         
@@ -56,7 +58,7 @@ public abstract class ChessPiece : MonoBehaviour
         transform.DOMove(movedSquare.transform.position, moveDuration).OnComplete(() =>
         {
             OnMovedCustomAction(move);
-            OnMoved?.Invoke();
+            OnMoved?.Invoke(move);
         });
     }
 

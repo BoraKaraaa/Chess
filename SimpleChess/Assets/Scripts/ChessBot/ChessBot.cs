@@ -3,9 +3,11 @@ using UnityEngine;
 
 public abstract class ChessBot : MonoBehaviour, IChessBot
 {
+    [HideInInspector] public EColor EColor;
+    
     public abstract Move BestMove();
 
-    public void Move(Action OnMoveMade)
+    public void Move(Action<Move> OnMoveMade)
     {
         Move bestMove = BestMove();
         

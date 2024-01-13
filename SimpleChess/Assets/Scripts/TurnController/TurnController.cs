@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum EColor
 {
@@ -15,7 +16,7 @@ public class TurnController : Singleton<TurnController>
 
     [Header("Black Chess Bot")] 
     [SerializeField] private ChessBot blackChessBot;
-
+    
     public Action ChessMatchStarted;
     public Action ChessMatchResumed;
     public Action ChessMatchStopped;
@@ -29,8 +30,21 @@ public class TurnController : Singleton<TurnController>
         set => currentTurn = value;
     }
 
+    private List<Move> moveHistoryList = new List<Move>();
+    public List<Move> MoveHistoryList => moveHistoryList;
+
     private void Start()
     {
+        if (whiteChessBot != null)
+        {
+            whiteChessBot.EColor = EColor.WHITE;
+        }
+
+        if (blackChessBot != null)
+        {
+            blackChessBot.EColor = EColor.BLACK;
+        }
+        
         this.WaitForSeconds(1f, () =>
         {
             StartNewMatch();
@@ -72,11 +86,20 @@ public class TurnController : Singleton<TurnController>
         }
     }
 
-    private void MoveMade()
+    private void MoveMade(Move move)
     {
         StopAllCoroutines();
-
+        
+        moveHistoryList.Add(move);
+        
         currentTurn = currentTurn == EColor.WHITE ? EColor.BLACK : EColor.WHITE;
+
+        if (ChessAPI.IsDraw())
+        {
+            // Finish Game
+            Debug.Log("GAME FINISHED DRAW");
+            return;
+        }
         
         if (!ChessAPI.IsCheckMate())
         {

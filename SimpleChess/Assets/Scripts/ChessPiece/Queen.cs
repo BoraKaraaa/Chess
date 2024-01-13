@@ -1,16 +1,16 @@
 
 public class Queen : ChessPiece
 {
-    public override (Move[], Move[]) GetLegalMoves(bool controlCheck)
+    public override (Move[], Move[]) GetLegalMoves()
     {
         (Move[], Move[]) verticalMovesTuple = ChessBoardAPI
-            .CheckVerticalMoves(this, square, 7, eColor, controlCheck);
+            .CheckVerticalMoves(this, square, 7, eColor);
         
         (Move[], Move[]) horizontalMovesTuple = ChessBoardAPI
-            .CheckHorizontalMoves(this, square, 7, eColor, controlCheck);
+            .CheckHorizontalMoves(this, square, 7, eColor);
         
         (Move[], Move[]) diagonalMovesTuple = ChessBoardAPI
-            .CheckDiagonalMoves(this, square, 7, eColor, controlCheck);
+            .CheckDiagonalMoves(this, square, 7, eColor);
 
         Move[] concanatedMoves = new Move[verticalMovesTuple.Item1.Length
                                           + horizontalMovesTuple.Item1.Length
@@ -31,6 +31,13 @@ public class Queen : ChessPiece
                                                                 + horizontalMovesTuple.Item2.Length);
         
         return (concanatedMoves, concanatedCaptureMoves);
+    }
+
+    public override bool CanThreatSquare(Square targetSquare)
+    {
+        return ChessBoardAPI.CanVerticallyThreat(square, targetSquare) 
+               || ChessBoardAPI.CanHorizontallyThreat(square, targetSquare) 
+               || ChessBoardAPI.CanDiagonallyThreat(square, targetSquare);
     }
 
     public override string GetChessPieceNotationChar()

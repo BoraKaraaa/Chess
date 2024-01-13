@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class Pawn : ChessPiece
 {
-    public override (Move[], Move[]) GetLegalMoves(bool controlCheck)
+    public override (Move[], Move[]) GetLegalMoves()
     {
-        return ChessBoardAPI.CheckPawnMoves(this, square, eColor, controlCheck);
+        return ChessBoardAPI.CheckPawnMoves(this, square, eColor);
     }
-    
+
+    public override bool CanThreatSquare(Square targetSquare)
+    {
+        return ChessBoardAPI.CanPawnThreat(square, targetSquare);
+    }
+
     protected override void OnMovedCustomAction(Move move)
     {
         if (move.IsPromotion)

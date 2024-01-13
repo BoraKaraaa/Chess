@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using EasyButtons;
 
@@ -188,6 +189,9 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
         BlackPieces.Add(createdBlackKing);
 
         blackKingInstance = createdBlackKing;
+        
+        WhitePieces.Reverse();
+        BlackPieces.Reverse();
     }
 
     private void ClearChessPieces()

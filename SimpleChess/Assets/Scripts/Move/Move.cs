@@ -12,15 +12,15 @@ public class Move
     
     public bool IsChecked;
     public bool IsCaptured;
+    public bool IsCastles;
     public bool IsPromotion;
-
-    public EChessPiece PromotionType;
+    public bool IsEnpassant;
     
-    // TODO: Calculate IsChecked Value
+    public EChessPiece PromotionType;
 
     public Move(String moveNotation, Square initialSquare, Square targetSquare, ChessPiece movedChessPiece,
-        ChessPiece capturedChessPiece, bool isChecked = false, bool isCaptured = false, bool isPromotion = false, 
-        EChessPiece promotionType = EChessPiece.DEFAULT)
+        ChessPiece capturedChessPiece, bool isChecked = false, bool isCaptured = false, bool isCastles = false,
+        bool isPromotion = false, bool isEnpassant = false, EChessPiece promotionType = EChessPiece.NONE)
 
     {
         MoveNotation = moveNotation;
@@ -30,7 +30,14 @@ public class Move
         CapturedChessPiece = capturedChessPiece;
         IsChecked = isChecked;
         IsCaptured = isCaptured;
+        IsCastles = isCastles;
         IsPromotion = isPromotion;
         PromotionType = promotionType;
+        IsEnpassant = isEnpassant;
+    }
+
+    public Move()
+    {
+        
     }
 }
