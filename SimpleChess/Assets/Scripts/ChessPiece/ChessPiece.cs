@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum EChessPiece
 {
+    DEFAULT,
     PAWN,
     KNIGHT,
     BISHOP,
@@ -23,8 +24,17 @@ public abstract class ChessPiece : MonoBehaviour
 
     private float moveDuration = 0.2f;
 
-    public EColor EColor => eColor;
-    public EChessPiece EChessPiece => eChessPiece;
+    public EColor EColor
+    {
+        get => eColor;
+        set => eColor = value;
+    }
+
+    public EChessPiece EChessPiece
+    {
+        get => eChessPiece;
+        set => eChessPiece = value;
+    }
 
     public Square Square
     {
@@ -32,17 +42,27 @@ public abstract class ChessPiece : MonoBehaviour
         set => square = value;
     }
     
-    public abstract (Move[], Move[]) GetLegalMoves();
+    public abstract (Move[], Move[]) GetLegalMoves(bool controlChecks = true);
     
-    public void Move(Square movedSquare, Action OnMoved)
+    public void Move(Move move, Action OnMoved)
     {
+        Square movedSquare = move.TargetSquare;
+        
         square.ChessPiece = null;
         square = movedSquare;
+
+        square.ChessPiece = this;
         
         transform.DOMove(movedSquare.transform.position, moveDuration).OnComplete(() =>
         {
+            OnMovedCustomAction(move);
             OnMoved?.Invoke();
         });
+    }
+
+    protected virtual void OnMovedCustomAction(Move move)
+    {
+        
     }
 
     public void Captured()

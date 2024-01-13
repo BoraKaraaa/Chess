@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using EasyButtons;
@@ -27,6 +28,12 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
     [Space(10)]
     [SerializeField] private Transform chessPieceParent;
 
+    [SerializeField] private ChessPiece whiteKingInstance; 
+    [SerializeField] private ChessPiece blackKingInstance;
+
+    public ChessPiece WhiteKingInstance => whiteKingInstance;
+    public ChessPiece BlackKingInstance => blackKingInstance;
+    
     public List<ChessPiece> WhitePieces;
     public List<ChessPiece> BlackPieces;
 
@@ -171,12 +178,16 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
         createdWhiteKing.Square.ChessPiece = createdWhiteKing;
         WhitePieces.Add(createdWhiteKing);
 
+        whiteKingInstance = createdWhiteKing;
+
         King createdBlackKing = Instantiate(blackKing, chessBoard.Board[7][4].transform.position,
             Quaternion.identity, chessPieceParent);
 
         createdBlackKing.Square = chessBoard.Board[7][4];
         createdBlackKing.Square.ChessPiece = createdBlackKing;
         BlackPieces.Add(createdBlackKing);
+
+        blackKingInstance = createdBlackKing;
     }
 
     private void ClearChessPieces()

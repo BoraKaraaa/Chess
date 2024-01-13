@@ -75,17 +75,16 @@ public class ChessBoard : Singleton<ChessBoard>
                 if ((i + j) % 2 == 0)
                 {
                     board[i][j] = Instantiate(blackSquare, currentSquarePos, Quaternion.identity, squareParentObject);
-                    board[i][j].SquareNotation = SQUARE_NOTATION[i][j];
-                    board[i][j].Row = i;
-                    board[i][j].Col = j;
                 }
                 else
                 {
                     board[i][j] = Instantiate(whiteSquare, currentSquarePos, Quaternion.identity, squareParentObject);
-                    board[i][j].SquareNotation = SQUARE_NOTATION[i][j];
-                    board[i][j].Row = i;
-                    board[i][j].Col = j;
                 }
+                
+                board[i][j].SquareNotation = SQUARE_NOTATION[i][j];
+                board[i][j].EColor = (i + j) % 2 == 0 ? EColor.BLACK : EColor.WHITE;
+                board[i][j].Row = i;
+                board[i][j].Col = j;
 
                 currentSquarePos.x += squareDistance;
             }

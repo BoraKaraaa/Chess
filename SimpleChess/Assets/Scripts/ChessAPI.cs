@@ -1,21 +1,12 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 public static class ChessAPI
 {
-    public static bool IsCheckMate()
+    public static List<ChessPiece> GetOpponentPieces()
     {
-        return false;
+        return (TurnController.Instance.CurrentTurn == EColor.WHITE) ? GetBlackPieces() : GetWhitePieces();
     }
-
-    public static bool IsCheck()
-    {
-        return false;
-    }
-
+    
     public static List<ChessPiece> GetWhitePieces()
     {
         return ChessPieceSpawner.Instance.WhitePieces;
@@ -24,6 +15,119 @@ public static class ChessAPI
     public static List<ChessPiece> GetBlackPieces()
     {
         return ChessPieceSpawner.Instance.BlackPieces;
+    }
+
+    public static ChessPiece GetOpponentKing()
+    {
+        return (TurnController.Instance.CurrentTurn == EColor.WHITE)
+            ? ChessPieceSpawner.Instance.BlackKingInstance
+            : ChessPieceSpawner.Instance.WhiteKingInstance;
+    }
+    
+    public static ChessPiece GetMyKing()
+    {
+        return (TurnController.Instance.CurrentTurn != EColor.WHITE)
+            ? ChessPieceSpawner.Instance.BlackKingInstance
+            : ChessPieceSpawner.Instance.WhiteKingInstance;
+    }
+    
+    public static bool IsCheck()
+    {
+        Square kingSquare = GetMyKing().Square;
+
+        foreach (ChessPiece opponentPiece in GetOpponentPieces())
+        {
+            foreach (Move move in opponentPiece.GetLegalMoves(false).Item2)
+            {
+                if (move.TargetSquare == kingSquare)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    
+    public static bool IsCheckMate()
+    {
+        if (!IsCheck())
+        {
+            return false;
+        }
+        
+        ChessPiece king = GetMyKing();
+
+        if (king.GetLegalMoves().Item1.Length == 0)
+        {
+            return true;
+        }
+
+        return false;
+
+        /*
+        if (!IsCheck())
+        {
+            return false;
+        }
+
+        ChessPiece king = GetMyKing();
+
+        foreach (Move move in king.GetLegalMoves().Item1)
+        {
+            ChessPiece capturedPiece = move.CapturedChessPiece;
+
+            move.InitialSquare.ChessPiece = null;
+            king.Square = move.TargetSquare;
+            move.TargetSquare.ChessPiece = king;
+
+            if (move.IsCaptured)
+            {
+                if (capturedPiece.EColor == EColor.WHITE)
+                {
+                    ChessPieceSpawner.Instance.WhitePieces.Remove(capturedPiece);
+                }
+                else
+                {
+                    ChessPieceSpawner.Instance.BlackPieces.Remove(capturedPiece);
+                }
+
+                capturedPiece.Square.ChessPiece = null;
+            }
+
+            if (!IsCheck())
+            {
+                UndoKingMove(move, king, capturedPiece);
+                return false;
+            }
+
+            // Undo the move
+            UndoKingMove(move, king, capturedPiece);
+        }
+
+        return true;
+        */
+    }
+
+    private static void UndoKingMove(Move move, ChessPiece king, ChessPiece capturedPiece)
+    {
+        move.InitialSquare.ChessPiece = king;
+        king.Square = move.InitialSquare;
+        move.TargetSquare.ChessPiece = null;
+            
+        if (move.IsCaptured)
+        {
+            if (capturedPiece.EColor == EColor.WHITE)
+            {
+                ChessPieceSpawner.Instance.WhitePieces.Add(capturedPiece);
+            }
+            else
+            {
+                ChessPieceSpawner.Instance.BlackPieces.Add(capturedPiece);
+            }
+
+            capturedPiece.Square.ChessPiece = capturedPiece;
+        }
     }
     
     public static (Move[], Move[]) GetLegalAndCaptureMoves()

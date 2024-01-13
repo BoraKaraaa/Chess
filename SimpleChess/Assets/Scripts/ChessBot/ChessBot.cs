@@ -9,14 +9,14 @@ public abstract class ChessBot : MonoBehaviour, IChessBot
     {
         Move bestMove = BestMove();
         
-        this.WaitForSeconds(0.5f, () =>
+        this.WaitForSeconds(0.2f, () =>
         {
             if (bestMove.IsCaptured)
             {
                 bestMove.CapturedChessPiece.Captured();
             }
             
-            bestMove.MovedChessPiece.Move(bestMove.MovedSquare, OnMoveMade); 
+            bestMove.MovedChessPiece.Move(bestMove, OnMoveMade); 
         });
         
         // Debug

@@ -1,13 +1,13 @@
 
 public class Rook : ChessPiece
 {
-    public override (Move[], Move[]) GetLegalMoves()
+    public override (Move[], Move[]) GetLegalMoves(bool controlCheck)
     {
         (Move[], Move[]) verticalMovesTuple = ChessBoardAPI
-            .CheckVerticalMoves(this, square, 7, eColor);
+            .CheckVerticalMoves(this, square, 7, eColor, controlCheck);
         
         (Move[], Move[]) horizontalMovesTuple = ChessBoardAPI
-            .CheckHorizontalMoves(this, square, 7, eColor);
+            .CheckHorizontalMoves(this, square, 7, eColor, controlCheck);
 
         Move[] concanatedMoves = new Move[verticalMovesTuple.Item1.Length
                                           + horizontalMovesTuple.Item1.Length];

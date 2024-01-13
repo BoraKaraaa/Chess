@@ -85,6 +85,7 @@ public class TurnController : Singleton<TurnController>
         else
         {
             // Finish Game
+            Debug.Log("GAME FINISHED " + currentTurn + " LOSE");
         }
     }
     

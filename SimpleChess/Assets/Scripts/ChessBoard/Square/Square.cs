@@ -14,6 +14,12 @@ public class Square : MonoBehaviour
         set => squareNotation = value;
     }
 
+    public EColor EColor
+    {
+        get => eColor;
+        set => eColor = value;
+    }
+
     public int Row
     {
         get => row;
