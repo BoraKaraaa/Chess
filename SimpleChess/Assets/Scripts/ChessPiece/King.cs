@@ -13,10 +13,26 @@ public class King : ChessPiece
     {
         return ChessBoardAPI.CanKingThreat(square, targetSquare);
     }
-
-    protected override void OnMovedCustomAction(Move move)
+    
+    protected override void OnBeforeMoveCustomAction(Move move)
     {
-        base.OnMovedCustomAction(move);
+        base.OnBeforeMoveCustomAction(move);
+
+        if (move.IsCastles)
+        {
+            Move rookMove = new Move();
+            
+            rookMove.TargetSquare = move.IsCastlesKingSide
+                ? ChessBoardAPI.GetKingSideCastleRookSquare()
+                : ChessBoardAPI.GetQueenSideCastleRookSquare();
+            
+            move.CastleRook.Move(rookMove, null);
+        }
+    }
+    
+    protected override void OnAfterMoveCustomAction(Move move)
+    {
+        base.OnAfterMoveCustomAction(move);
         hasMoved = true;
     }
     

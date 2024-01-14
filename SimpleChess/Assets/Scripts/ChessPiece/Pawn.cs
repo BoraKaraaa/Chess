@@ -14,9 +14,9 @@ public class Pawn : ChessPiece
         return ChessBoardAPI.CanPawnThreat(square, targetSquare);
     }
 
-    protected override void OnMovedCustomAction(Move move)
+    protected override void OnAfterMoveCustomAction(Move move)
     {
-        base.OnMovedCustomAction(move);
+        base.OnAfterMoveCustomAction(move);
         
         if (move.IsPromotion)
         {

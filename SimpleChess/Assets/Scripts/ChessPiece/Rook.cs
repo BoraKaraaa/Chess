@@ -33,9 +33,9 @@ public class Rook : ChessPiece
                || ChessBoardAPI.CanHorizontallyThreat(square, targetSquare);
     }
     
-    protected override void OnMovedCustomAction(Move move)
+    protected override void OnAfterMoveCustomAction(Move move)
     {
-        base.OnMovedCustomAction(move);
+        base.OnAfterMoveCustomAction(move);
         hasMoved = true;
     }
     

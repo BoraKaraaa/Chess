@@ -54,15 +54,22 @@ public abstract class ChessPiece : MonoBehaviour
         square = movedSquare;
 
         square.ChessPiece = this;
+
+        OnBeforeMoveCustomAction(move);
         
         transform.DOMove(movedSquare.transform.position, moveDuration).OnComplete(() =>
         {
-            OnMovedCustomAction(move);
+            OnAfterMoveCustomAction(move);
             OnMoved?.Invoke(move);
         });
     }
-
-    protected virtual void OnMovedCustomAction(Move move)
+    
+    protected virtual void OnBeforeMoveCustomAction(Move move)
+    {
+        
+    }
+    
+    protected virtual void OnAfterMoveCustomAction(Move move)
     {
         
     }

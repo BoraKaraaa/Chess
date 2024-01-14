@@ -58,18 +58,30 @@ public static class ChessBoardAPI
         return queenSideCastleNotation;
     }
     
-    public static Square GetKingSideRookSquare()
+    public static Square GetKingSideCastleKingSquare()
     {
         int row = (TurnController.Instance.CurrentTurn == EColor.WHITE) ? 0 : 7;
         return ChessBoard.Instance.Board[row][6];
     }
 
-    public static Square GetQueenSideRookSquare()
+    public static Square GetQueenSideCastleKingSquare()
     {
         int row = (TurnController.Instance.CurrentTurn == EColor.WHITE) ? 0 : 7;
-        return ChessBoard.Instance.Board[row][1];
+        return ChessBoard.Instance.Board[row][2];
+    }
+    
+    public static Square GetKingSideCastleRookSquare()
+    {
+        int row = (TurnController.Instance.CurrentTurn == EColor.WHITE) ? 0 : 7;
+        return ChessBoard.Instance.Board[row][5];
     }
 
+    public static Square GetQueenSideCastleRookSquare()
+    {
+        int row = (TurnController.Instance.CurrentTurn == EColor.WHITE) ? 0 : 7;
+        return ChessBoard.Instance.Board[row][3];
+    }
+    
     private static void DeletePieceFromBoard(ChessPiece chessPiece)
     {
         chessPiece.Square.ChessPiece = null;
@@ -639,11 +651,11 @@ public static class ChessBoardAPI
         {
             if (ChessAPI.IsShortCastlingPossible())
             {
-                Square kingsideRookSquare = GetKingSideRookSquare();
+                Square kingsideRookSquare = GetKingSideCastleKingSquare();
                 
                 Move kingsideCastleMove = new Move(GerKingSideCastleNotation(),
                     refSquare, kingsideRookSquare, chessPiece,
-                    null, isCastles: true);
+                    null, castleRook:ChessAPI.GetRightRook(), isCastles: true, isCastlesKingSide:true);
                     
                 if (!IsInvalidMove(kingsideCastleMove))
                 {
@@ -653,11 +665,11 @@ public static class ChessBoardAPI
             
             if (ChessAPI.IsLongCastlingPossible())
             {
-                Square queensideRookSquare = GetQueenSideRookSquare();
+                Square queensideRookSquare = GetQueenSideCastleKingSquare();
                 
                 Move queensideCastleMove = new Move(GerQueenSideCastleNotation(),
                     refSquare, queensideRookSquare, chessPiece,
-                    null, isCastles: true);
+                    null, castleRook:ChessAPI.GetLeftRook(), isCastles: true);
 
                 if (!IsInvalidMove(queensideCastleMove))
                 {
