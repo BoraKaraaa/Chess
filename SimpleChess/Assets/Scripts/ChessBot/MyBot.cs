@@ -38,7 +38,9 @@ public class MyBot : ChessBot
 
     private const int MAX_VAL = 9999999;
     private const int MIN_VAL = -9999999;
-
+    
+    private const int ABSOLUTE_WIN = 30;
+    
     public override Move BestMove()
     {
         return CalculateNDepthMoves(4);
@@ -138,9 +140,16 @@ public class MyBot : ChessBot
             preHeuristicVal += IsIPlaying(moveNode.Depth) ? 15 : -15;
         }
         
+        if (moveNode.Move.MovedChessPiece.EChessPiece == EChessPiece.QUEEN)
+        {
+            if (TurnController.Instance.TotalMoveCount < 8)
+            {
+                preHeuristicVal += IsIPlaying(moveNode.Depth) ? -15 : 15;
+            }
+        }
+        
         return preHeuristicVal;
     }
-
     
     private int CalculatePositionValue(MoveNode moveNode, out bool isCheck)
     {
@@ -224,6 +233,28 @@ public class MyBot : ChessBot
             totalHeuristicVal += IsIPlaying(moveNode.Depth)
                 ? -PiecePositionalVals[oppChessPiece.Square.Row * 8 + oppChessPiece.Square.Col]
                 : PiecePositionalVals[oppChessPiece.Square.Row * 8 + oppChessPiece.Square.Col];
+        }
+            
+        if (ChessAPI.IsDraw())
+        {
+            if (IsIPlaying(moveNode.Depth))
+            {
+                if (totalHeuristicVal > ABSOLUTE_WIN)
+                {
+                    totalHeuristicVal -= 100;
+                }
+
+                totalHeuristicVal += 100;
+            }
+            else
+            {
+                if (totalHeuristicVal < -ABSOLUTE_WIN)
+                {
+                    totalHeuristicVal += 100;
+                }
+
+                totalHeuristicVal -= 100;   
+            }
         }
         
         return totalHeuristicVal;

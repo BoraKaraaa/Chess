@@ -38,6 +38,8 @@ public class TurnController : Singleton<TurnController>
         set => moveHistoryList = value;
     }
 
+    public int TotalMoveCount => moveHistoryList.Count;
+    
     private void Start()
     {
         if (whiteChessBot != null)

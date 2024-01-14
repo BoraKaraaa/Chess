@@ -27208,7 +27208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whiteChessBot: {fileID: 2067681012}
-  blackChessBot: {fileID: 644483890}
+  blackChessBot: {fileID: 2067681012}
 --- !u!1 &1884164327
 GameObject:
   m_ObjectHideFlags: 0
