@@ -31,7 +31,12 @@ public class TurnController : Singleton<TurnController>
     }
 
     private List<Move> moveHistoryList = new List<Move>();
-    public List<Move> MoveHistoryList => moveHistoryList;
+
+    public List<Move> MoveHistoryList
+    {
+        get => moveHistoryList;
+        set => moveHistoryList = value;
+    }
 
     private void Start()
     {
@@ -91,8 +96,8 @@ public class TurnController : Singleton<TurnController>
         StopAllCoroutines();
         
         moveHistoryList.Add(move);
-        
-        currentTurn = currentTurn == EColor.WHITE ? EColor.BLACK : EColor.WHITE;
+
+        currentTurn = NextTurnColor();
 
         if (ChessAPI.IsDraw())
         {
@@ -110,6 +115,11 @@ public class TurnController : Singleton<TurnController>
             // Finish Game
             Debug.Log("GAME FINISHED " + currentTurn + " LOSE");
         }
+    }
+
+    public EColor NextTurnColor()
+    {
+        return currentTurn == EColor.WHITE ? EColor.BLACK : EColor.WHITE;
     }
     
     private IEnumerator WaitToMove()

@@ -1,6 +1,9 @@
 
 public class Rook : ChessPiece
 {
+    private bool hasMoved = false;
+    public bool HasMoved => hasMoved;
+    
     public override (Move[], Move[]) GetLegalMoves()
     {
         (Move[], Move[]) verticalMovesTuple = ChessBoardAPI
@@ -29,7 +32,13 @@ public class Rook : ChessPiece
         return ChessBoardAPI.CanVerticallyThreat(square, targetSquare) 
                || ChessBoardAPI.CanHorizontallyThreat(square, targetSquare);
     }
-
+    
+    protected override void OnMovedCustomAction(Move move)
+    {
+        base.OnMovedCustomAction(move);
+        hasMoved = true;
+    }
+    
     public override string GetChessPieceNotationChar()
     {
         return "R";

@@ -16,6 +16,8 @@ public class Pawn : ChessPiece
 
     protected override void OnMovedCustomAction(Move move)
     {
+        base.OnMovedCustomAction(move);
+        
         if (move.IsPromotion)
         {
             move.TargetSquare.ChessPiece = null;

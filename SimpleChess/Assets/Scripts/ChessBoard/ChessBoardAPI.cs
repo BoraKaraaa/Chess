@@ -5,10 +5,32 @@ using System;
 public static class ChessBoardAPI
 {
     private const string x = "x";
+    private const string kingSideCastleNotation = "0-0";
+    private const string queenSideCastleNotation = "0-0-0";
     
     private static bool IsInsideBounds(int row, int col) 
     {
         return (row >= 0 && row < ChessBoard.Instance.Height) && (col >= 0 && col < ChessBoard.Instance.Width);
+    }
+
+    public static bool IsSquareEmpty(int row, int col)
+    {
+        return ChessBoard.Instance.Board[row][col].IsSquareEmpty();
+    }
+    
+    public static bool IsSquareUnderThreat(int row, int col)
+    {
+        Square targetSquare = ChessBoard.Instance.Board[row][col];
+        
+        foreach (var oppChessPiece in ChessAPI.GetOpponentPieces())
+        {
+            if (oppChessPiece.CanThreatSquare(targetSquare))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
     
     public static float GetTwoSquareHypotenuseDistance(Square square1, Square square2)
@@ -24,6 +46,28 @@ public static class ChessBoardAPI
     public static string GetSquareNotation(ChessPiece chessPiece, Square square, ChessPiece capturedPiece)
     {
         return chessPiece.GetChessPieceNotationChar() + x + square.SquareNotation;
+    }
+
+    public static string GerKingSideCastleNotation()
+    {
+        return kingSideCastleNotation;
+    }
+    
+    public static string GerQueenSideCastleNotation()
+    {
+        return queenSideCastleNotation;
+    }
+    
+    public static Square GetKingSideRookSquare()
+    {
+        int row = (TurnController.Instance.CurrentTurn == EColor.WHITE) ? 0 : 7;
+        return ChessBoard.Instance.Board[row][6];
+    }
+
+    public static Square GetQueenSideRookSquare()
+    {
+        int row = (TurnController.Instance.CurrentTurn == EColor.WHITE) ? 0 : 7;
+        return ChessBoard.Instance.Board[row][1];
     }
 
     private static void DeletePieceFromBoard(ChessPiece chessPiece)
@@ -45,7 +89,7 @@ public static class ChessBoardAPI
     private static bool IsInvalidMove(Move move)
     {
         ChessAPI.MakeAbstractMove(move);
-        if (ChessAPI.IsCheckMe())
+        if (ChessAPI.IsCheckOpp())
         {
             ChessAPI.UndoAbstractMove(move);
             return true;
@@ -591,44 +635,36 @@ public static class ChessBoardAPI
         }
         
         // Check for castling
-        /*
-        if (ChessAPI.CanKingCastle(currentPlayerColor))
+        if (ChessAPI.CanKingCastle())
         {
-            // Check kingside castling
-            Square kingsideRookSquare = ChessBoard.Instance.Board[refTileRow][7];
-            if (kingsideRookSquare != null && kingsideRookSquare.ChessPiece != null
-                                           && kingsideRookSquare.ChessPiece.EChessPiece == EChessPiece.ROOK
-                                           && kingsideRookSquare.ChessPiece.EColor == currentPlayerColor
-                                           && ChessAPI.IsClearPathForCastling(refSquare, kingsideRookSquare))
+            if (ChessAPI.IsShortCastlingPossible())
             {
-                Move kingsideCastleMove = new Move(GetSquareNotation(chessPiece, refSquare, kingsideRookSquare),
+                Square kingsideRookSquare = GetKingSideRookSquare();
+                
+                Move kingsideCastleMove = new Move(GerKingSideCastleNotation(),
                     refSquare, kingsideRookSquare, chessPiece,
-                    kingsideRookSquare.ChessPiece, isCastle: true);
-
-                if (!IsInvalidMove(kingsideCastleMove) && !ChessAPI.IsMoveCheck(kingsideCastleMove))
+                    null, isCastles: true);
+                    
+                if (!IsInvalidMove(kingsideCastleMove))
                 {
                     checkAroundMoves.Add(kingsideCastleMove);
                 }
             }
-
-            // Check queenside castling
-            Square queensideRookSquare = ChessBoard.Instance.Board[refTileRow][0];
-            if (queensideRookSquare != null && queensideRookSquare.ChessPiece != null
-                                            && queensideRookSquare.ChessPiece.EChessPiece == EChessPiece.ROOK
-                                            && queensideRookSquare.ChessPiece.EColor == currentPlayerColor
-                                            && ChessAPI.IsClearPathForCastling(refSquare, queensideRookSquare))
+            
+            if (ChessAPI.IsLongCastlingPossible())
             {
-                Move queensideCastleMove = new Move(GetSquareNotation(chessPiece, refSquare, queensideRookSquare),
+                Square queensideRookSquare = GetQueenSideRookSquare();
+                
+                Move queensideCastleMove = new Move(GerQueenSideCastleNotation(),
                     refSquare, queensideRookSquare, chessPiece,
-                    queensideRookSquare.ChessPiece, isCastle: true);
+                    null, isCastles: true);
 
-                if (!IsInvalidMove(queensideCastleMove) && !ChessAPI.IsMoveCheck(queensideCastleMove))
+                if (!IsInvalidMove(queensideCastleMove))
                 {
                     checkAroundMoves.Add(queensideCastleMove);
                 }
             }
         }
-        */
         
         return (checkAroundMoves.ToArray(), checkAroundCaptureMoves.ToArray());
     }

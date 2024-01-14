@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using EasyButtons;
 
@@ -31,9 +29,21 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
 
     [SerializeField] private ChessPiece whiteKingInstance; 
     [SerializeField] private ChessPiece blackKingInstance;
+    
+    [SerializeField] private ChessPiece whiteLeftRook;
+    [SerializeField] private ChessPiece whiteRightRook;
+    
+    [SerializeField] private ChessPiece blackLeftRook;
+    [SerializeField] private ChessPiece blackRightRook;
 
     public ChessPiece WhiteKingInstance => whiteKingInstance;
     public ChessPiece BlackKingInstance => blackKingInstance;
+    
+    public ChessPiece WhiteLeftRook => whiteLeftRook;
+    public ChessPiece WhiteRightRook => whiteRightRook;
+    
+    public ChessPiece BlackLeftRook => blackLeftRook;
+    public ChessPiece BlackRightRook => blackRightRook;
     
     public List<ChessPiece> WhitePieces;
     public List<ChessPiece> BlackPieces;
@@ -132,27 +142,31 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
         createdWhiteRook.Square = chessBoard.Board[0][0];
         createdWhiteRook.Square.ChessPiece = createdWhiteRook;
         WhitePieces.Add(createdWhiteRook);
-
+        whiteLeftRook = createdWhiteRook;
+        
         createdWhiteRook = Instantiate(whiteRook, chessBoard.Board[0][7].transform.position,
             Quaternion.identity, chessPieceParent);
 
         createdWhiteRook.Square = chessBoard.Board[0][7];
         createdWhiteRook.Square.ChessPiece = createdWhiteRook;
         WhitePieces.Add(createdWhiteRook);
-
+        whiteRightRook = createdWhiteRook;
+        
         createdWhiteRook = Instantiate(blackRook, chessBoard.Board[7][0].transform.position,
             Quaternion.identity, chessPieceParent);
 
         createdWhiteRook.Square = chessBoard.Board[7][0];
         createdWhiteRook.Square.ChessPiece = createdWhiteRook;
         BlackPieces.Add(createdWhiteRook);
-
+        blackLeftRook = createdWhiteRook;
+        
         createdWhiteRook = Instantiate(blackRook, chessBoard.Board[7][7].transform.position,
             Quaternion.identity, chessPieceParent);
 
         createdWhiteRook.Square = chessBoard.Board[7][7];
         createdWhiteRook.Square.ChessPiece = createdWhiteRook;
         BlackPieces.Add(createdWhiteRook);
+        blackRightRook = createdWhiteRook;
         
         // SpawnQueens
 

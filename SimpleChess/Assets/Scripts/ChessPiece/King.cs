@@ -1,6 +1,9 @@
 
 public class King : ChessPiece
 {
+    private bool hasMoved = false;
+    public bool HasMoved => hasMoved;
+    
     public override (Move[], Move[]) GetLegalMoves()
     {
         return ChessBoardAPI.CheckKingMoves(this, square, 1, eColor);
@@ -11,6 +14,12 @@ public class King : ChessPiece
         return ChessBoardAPI.CanKingThreat(square, targetSquare);
     }
 
+    protected override void OnMovedCustomAction(Move move)
+    {
+        base.OnMovedCustomAction(move);
+        hasMoved = true;
+    }
+    
     public override string GetChessPieceNotationChar()
     {
         return "K";

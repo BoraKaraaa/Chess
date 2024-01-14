@@ -11,7 +11,7 @@ public abstract class ChessBot : MonoBehaviour, IChessBot
     {
         Move bestMove = BestMove();
         
-        this.WaitForSeconds(0.2f, () =>
+        this.WaitForSeconds(0.1f, () =>
         {
             if (bestMove.IsCaptured)
             {
@@ -22,6 +22,6 @@ public abstract class ChessBot : MonoBehaviour, IChessBot
         });
         
         // Debug
-        Debug.Log(bestMove.MoveNotation);
+        //Debug.Log(bestMove.MoveNotation);
     }
 }

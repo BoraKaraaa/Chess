@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class ChessAPI
 {
@@ -49,6 +50,20 @@ public static class ChessAPI
             ? ChessPieceSpawner.Instance.BlackKingInstance
             : ChessPieceSpawner.Instance.WhiteKingInstance;
     }
+
+    public static ChessPiece GetLeftRook()
+    {
+        return (TurnController.Instance.CurrentTurn != EColor.WHITE)
+            ? ChessPieceSpawner.Instance.BlackLeftRook
+            : ChessPieceSpawner.Instance.WhiteLeftRook;
+    }
+
+    public static ChessPiece GetRightRook()
+    {
+        return (TurnController.Instance.CurrentTurn != EColor.WHITE)
+            ? ChessPieceSpawner.Instance.BlackRightRook
+            : ChessPieceSpawner.Instance.WhiteRightRook;
+    }
     
     public static Move GetLastMove()
     {
@@ -59,9 +74,68 @@ public static class ChessAPI
         
         return TurnController.Instance.MoveHistoryList[^1];
     }
+
+    public static bool CanKingCastle()
+    {
+        if (IsCheckMe())
+        {
+            return false;
+        }
+        
+        King myKing = (King)GetMyKing();
+        return !myKing.HasMoved;
+    }
+    
+    public static bool IsShortCastlingPossible()
+    {
+        int row = (TurnController.Instance.CurrentTurn == EColor.WHITE) ? 0 : 7;
+        
+        for (int col = 5; col <= 6; col++)
+        {
+            if (!ChessBoardAPI.IsSquareEmpty(row, col) || ChessBoardAPI.IsSquareUnderThreat(row, col))
+            {
+                return false;
+            }
+        }
+        
+        Rook rook = (Rook)GetRightRook();
+        
+        if (rook != null && !rook.HasMoved)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static bool IsLongCastlingPossible()
+    {
+        int row = (TurnController.Instance.CurrentTurn == EColor.WHITE) ? 0 : 7;
+        
+        for (int col = 1; col <= 3; col++)
+        {
+            if (!ChessBoardAPI.IsSquareEmpty(row, col) || ChessBoardAPI.IsSquareUnderThreat(row, col))
+            {
+                return false;
+            }
+        }
+        
+        Rook rook = (Rook)GetLeftRook();
+        
+        if (rook != null && !rook.HasMoved)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     
     public static void MakeAbstractMove(Move move)
     {
+        TurnController.Instance.CurrentTurn = TurnController.Instance.NextTurnColor();
+        TurnController.Instance.MoveHistoryList.Add(move);
+        
         move.InitialSquare.ChessPiece = null;
         move.MovedChessPiece.Square = move.TargetSquare;
         move.TargetSquare.ChessPiece = move.MovedChessPiece;
@@ -69,7 +143,8 @@ public static class ChessAPI
         if (move.IsCaptured)
         {
             ChessPiece capturedPiece = move.CapturedChessPiece;
-
+            capturedPiece.Square = null;
+            
             if (capturedPiece.EColor == EColor.WHITE)
             {
                 ChessPieceSpawner.Instance.WhitePieces.Remove(capturedPiece);
@@ -83,6 +158,9 @@ public static class ChessAPI
 
     public static void UndoAbstractMove(Move move)
     {
+        TurnController.Instance.CurrentTurn = TurnController.Instance.NextTurnColor();
+        TurnController.Instance.MoveHistoryList.RemoveAt(TurnController.Instance.MoveHistoryList.Count-1);
+        
         move.InitialSquare.ChessPiece = move.MovedChessPiece;
         move.MovedChessPiece.Square = move.InitialSquare;
         move.TargetSquare.ChessPiece = null;
@@ -90,7 +168,8 @@ public static class ChessAPI
         if (move.IsCaptured)
         {
             ChessPiece capturedPiece = move.CapturedChessPiece;
-
+            capturedPiece.Square = move.TargetSquare;
+            
             if (capturedPiece.EColor == EColor.WHITE)
             {
                 ChessPieceSpawner.Instance.WhitePieces.Add(capturedPiece);
@@ -100,15 +179,15 @@ public static class ChessAPI
                 ChessPieceSpawner.Instance.BlackPieces.Add(capturedPiece);
             }
 
-            capturedPiece.Square.ChessPiece = capturedPiece;
+            move.TargetSquare.ChessPiece = capturedPiece;
         }
     }
 
     public static bool IsMoveCheck(Move move)
     {
         MakeAbstractMove(move);
-
-        if (IsCheckOpp())
+        
+        if (IsCheckMe())
         {
             UndoAbstractMove(move);
             return true;
@@ -170,8 +249,9 @@ public static class ChessAPI
                         
                         // Control Check
 
-                        if (!IsCheckMe())
+                        if (!IsCheckOpp())
                         {
+                            UndoAbstractMove(move);
                             return false;
                         }
                         

@@ -41,7 +41,7 @@ public class MyBot : ChessBot
 
     public override Move BestMove()
     {
-        return CalculateNDepthMoves(3);
+        return CalculateNDepthMoves(4);
     }
 
     private Move CalculateNDepthMoves(int depth)
@@ -158,7 +158,7 @@ public class MyBot : ChessBot
             return MIN_VAL + 10;
         }
         
-        if (ChessAPI.IsCheckOpp() && IsIPlaying(moveNode.Depth))
+        if (moveNode.Move.IsChecked && IsIPlaying(moveNode.Depth))
         {
             isCheck = true;
             totalHeuristicVal += 3;
