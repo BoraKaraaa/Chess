@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Square : MonoBehaviour
 {
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    
     [SerializeField] private EColor eColor;
 
     [SerializeField] private int row;
@@ -14,6 +16,11 @@ public class Square : MonoBehaviour
         set => squareNotation = value;
     }
 
+    public SpriteRenderer SpriteRenderer
+    {
+        get => spriteRenderer;
+        set => spriteRenderer = value;
+    }
     public EColor EColor
     {
         get => eColor;

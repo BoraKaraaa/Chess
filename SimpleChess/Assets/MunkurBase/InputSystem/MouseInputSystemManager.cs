@@ -8,8 +8,8 @@ namespace Munkur
         public Action<Vector2> OnMouseLeftClicked;
         //public Action<Vector2> OnMouseRightClicked;
         //public Action<Vector2> OnMouseScrollClicked;
-        public Action<Vector2> OnMouseDragged;
-        public Action<Vector2> OnMouseReleased;
+        public Action<Vector2> OnMouseLeftClickDragged;
+        public Action<Vector2> OnMouseLeftClickReleased;
 
         private void Update()
         {
@@ -19,11 +19,11 @@ namespace Munkur
             }
             else if(Input.GetMouseButtonUp(0))
             {
-                OnMouseReleased?.Invoke(Input.mousePosition);
+                OnMouseLeftClickReleased?.Invoke(Input.mousePosition);
             }
             else if (Input.GetMouseButton(0))
             {
-                OnMouseDragged?.Invoke(Input.mousePosition);
+                OnMouseLeftClickDragged?.Invoke(Input.mousePosition);
             }
         }
     }

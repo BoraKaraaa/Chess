@@ -8,11 +8,11 @@ public static class ChessBoardAPI
     private const string kingSideCastleNotation = "0-0";
     private const string queenSideCastleNotation = "0-0-0";
     
-    private static bool IsInsideBounds(int row, int col) 
+    public static bool IsInsideBounds(int row, int col) 
     {
         return (row >= 0 && row < ChessBoard.Instance.Height) && (col >= 0 && col < ChessBoard.Instance.Width);
     }
-
+    
     public static bool IsSquareEmpty(int row, int col)
     {
         return ChessBoard.Instance.Board[row][col].IsSquareEmpty();

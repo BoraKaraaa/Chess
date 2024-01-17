@@ -45,7 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eSquare: 1
+  spriteRenderer: {fileID: 4434213739239858154}
+  eColor: 0
+  row: 0
+  col: 0
+  squareNotation: 
+  chessPiece: {fileID: 0}
 --- !u!1 &7460045009042144408
 GameObject:
   m_ObjectHideFlags: 0

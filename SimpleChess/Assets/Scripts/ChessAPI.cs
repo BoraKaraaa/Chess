@@ -271,11 +271,14 @@ public static class ChessAPI
 
     public static bool IsDraw()
     {
+        // TODO: Check Last 3 moves 
+        
+        
         if (IsCheckMe())
         {
             return false;
         }
-
+        
         foreach (var chessPiece in GetMyPieces())
         {
             if (chessPiece.GetLegalMoves().Item1.Length != 0)
@@ -283,7 +286,7 @@ public static class ChessAPI
                 return false;
             }
         }
-
+        
         return true;
     }
     

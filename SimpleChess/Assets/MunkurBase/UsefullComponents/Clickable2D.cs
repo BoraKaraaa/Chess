@@ -5,33 +5,37 @@ using Munkur;
 [RequireComponent( typeof(Collider2D) )]
 public class Clickable2D : MonoBehaviour
 {
+    [SerializeField] private Collider2D colliderr2D;
+    
     [SerializeField] private LayerMask layer;
-
-    [SerializeField] private bool oneTime;
 
     [SerializeField] private bool considerUI;
     
-    public bool OneTime => oneTime;
-    
     public Action OnClicked;
-    public Action OnUnclicked;
+    public Action OnUnClicked;
 
     private RaycastHit2D raycastHit2D;
     private Ray ray;
 
-    private bool isClicked = false;
-    
-    private void Awake()
-    { 
+    private void OnDestroy()
+    {
+        MouseInputSystemManager.Instance.OnMouseLeftClicked -= OnClick;  
+        MouseInputSystemManager.Instance.OnMouseLeftClickReleased -= OnUncliked;
+    }
+
+    public void EnableCollider()
+    {
+        colliderr2D.enabled = true;
         MouseInputSystemManager.Instance.OnMouseLeftClicked += OnClick;
     }
 
-    private void OnDestroy() 
+    public void DisableCollider()
     {
-        MouseInputSystemManager.Instance.OnMouseLeftClicked -= OnClick;    
+        colliderr2D.enabled = false;
+        MouseInputSystemManager.Instance.OnMouseLeftClicked -= OnClick;  
     }
-
-    public virtual void OnClick(Vector2 mousePosition) 
+    
+    public virtual void OnClick(Vector2 mousePos) 
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         raycastHit2D = Physics2D.GetRayIntersection(ray, Mathf.Infinity, layer);
@@ -42,23 +46,15 @@ public class Clickable2D : MonoBehaviour
             {
                 return;
             }
-
-            isClicked = true;
-            OnClicked?.Invoke();
             
-            if (oneTime)
-            {
-                InputSystemManager.Instance.OnInputStarted -= OnClick; 
-            }
-        }
-        else
-        {
-            if (isClicked)
-            {
-                isClicked = false;
-                OnUnclicked?.Invoke();
-            }
+            OnClicked?.Invoke();
+            MouseInputSystemManager.Instance.OnMouseLeftClickReleased += OnUncliked;
         }
     }
     
+    private void OnUncliked(Vector2 mousePos)
+    {
+        MouseInputSystemManager.Instance.OnMouseLeftClickReleased -= OnUncliked;
+        OnUnClicked?.Invoke();
+    }
 }

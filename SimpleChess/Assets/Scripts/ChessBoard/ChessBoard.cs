@@ -6,6 +6,9 @@ public class ChessBoard : Singleton<ChessBoard>
     [SerializeField] private Square blackSquare;
     [SerializeField] private Square whiteSquare;
 
+    [SerializeField] private Color highlightedColor;
+    [SerializeField] private Color highlightedCaptureColor;
+    
     [SerializeField] private Transform boardStartPos;
     [SerializeField] private Transform squareParentObject;
     
@@ -100,6 +103,51 @@ public class ChessBoard : Singleton<ChessBoard>
         for (int i = 0; i < squareCount; i++)
         {
             DestroyImmediate(squareParentObject.GetChild(0).gameObject);
+        }
+    }
+
+    public void ClearSquareRef()
+    {
+        int squareCount = squareParentObject.childCount;
+        
+        for (int i = 0; i < squareCount; i++)
+        {
+            Square square = squareParentObject.GetChild(0).GetComponent<Square>();
+            square.ChessPiece = null;
+        }
+    }
+    
+    public Square GetSquareByPosition(float x, float y)
+    {
+        int row = (int)(y + 4);
+        int col = (int)(x + 4);
+
+        if (ChessBoardAPI.IsInsideBounds(row, col))
+        {
+            return board[row][col];
+        }
+
+        return null;
+    }
+    
+    public void HighlightMoveSquares(Square square)
+    {
+        square.SpriteRenderer.color = highlightedColor;
+    }
+    
+    public void HighlightCaptureSquares(Square square)
+    {
+        square.SpriteRenderer.color = highlightedCaptureColor;
+    }
+
+    public void DefaultAllSquares()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                board[i][j].SpriteRenderer.color = Color.white;
+            }
         }
     }
 }

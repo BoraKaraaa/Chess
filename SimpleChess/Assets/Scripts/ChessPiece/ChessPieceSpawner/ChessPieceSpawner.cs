@@ -49,7 +49,7 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
     public List<ChessPiece> BlackPieces;
 
     [Button]
-    private void InitChessPieces()
+    public void InitChessPieces()
     {
         ClearChessPieces();
 
@@ -215,6 +215,19 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
         for (int i = 0; i < chessPieceCount; i++)
         {
             DestroyImmediate(chessPieceParent.GetChild(0).gameObject);
+        }
+        
+        WhitePieces.Clear();
+        BlackPieces.Clear();
+    }
+
+    public void ClearChessPieceRuntime()
+    {
+        int chessPieceCount = chessPieceParent.childCount;
+        
+        for (int i = 0; i < chessPieceCount; i++)
+        {
+            Destroy(chessPieceParent.GetChild(0).gameObject);
         }
         
         WhitePieces.Clear();

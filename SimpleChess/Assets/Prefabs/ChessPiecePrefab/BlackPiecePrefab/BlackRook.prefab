@@ -71,8 +71,33 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5071529489136483058, guid: 1d7bb6f79945d7c4b9ed950e08b4e812, type: 3}
+      propertyPath: chessPiece
+      value: 
+      objectReference: {fileID: 2979820007587067249}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d7bb6f79945d7c4b9ed950e08b4e812, type: 3}
+--- !u!114 &1080835376462040540 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5071529489136483058, guid: 1d7bb6f79945d7c4b9ed950e08b4e812, type: 3}
+  m_PrefabInstance: {fileID: 5232715745705064238}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa1fc9a7e98010f48a0c57beb89c48b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!82 &1894281002056179470 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5969382457722775584, guid: 1d7bb6f79945d7c4b9ed950e08b4e812, type: 3}
+  m_PrefabInstance: {fileID: 5232715745705064238}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &5775175196629969806 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1782259974937861280, guid: 1d7bb6f79945d7c4b9ed950e08b4e812, type: 3}
+  m_PrefabInstance: {fileID: 5232715745705064238}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7617615004782847456 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2389550219035644622, guid: 1d7bb6f79945d7c4b9ed950e08b4e812, type: 3}
@@ -90,6 +115,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c74802b96d969574081086ec33d27ff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clickTriggerHandler: {fileID: 1080835376462040540}
+  moveAudioSource: {fileID: 5775175196629969806}
+  captureAudioSource: {fileID: 1894281002056179470}
   eColor: 1
   eChessPiece: 3
   value: 0

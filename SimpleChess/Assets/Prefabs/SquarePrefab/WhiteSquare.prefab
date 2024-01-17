@@ -71,10 +71,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 231fd7301b37ba94a868f95ab0aa8f8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collider2D: {fileID: 0}
   layer:
     serializedVersion: 2
     m_Bits: 1
-  oneTime: 0
   considerUI: 0
 --- !u!1 &1488038538026430050
 GameObject:
@@ -283,7 +283,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bde69c6f522f54080d4cb9fc346d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 8920503073895287082}
   eColor: 0
+  row: 0
+  col: 0
+  squareNotation: 
+  chessPiece: {fileID: 0}
 --- !u!1 &6964224320630712420
 GameObject:
   m_ObjectHideFlags: 0

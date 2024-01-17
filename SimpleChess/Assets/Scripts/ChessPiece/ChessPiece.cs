@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum EChessPiece
 {
-    NONE,
+    NONE = 0,
     PAWN,
     KNIGHT,
     BISHOP,
@@ -15,6 +15,11 @@ public enum EChessPiece
 
 public abstract class ChessPiece : MonoBehaviour
 {
+    [SerializeField] private ClickTriggerHandler clickTriggerHandler;
+    
+    [SerializeField] private AudioSource moveAudioSource;
+    [SerializeField] private AudioSource captureAudioSource;
+    
     [SerializeField] protected EColor eColor;
     [SerializeField] protected EChessPiece eChessPiece;
 
@@ -22,6 +27,8 @@ public abstract class ChessPiece : MonoBehaviour
     
     [SerializeField] protected Square square;
 
+    public ClickTriggerHandler ClickTriggerHandler => clickTriggerHandler;
+    
     private float moveDuration = 0.2f;
 
     public EColor EColor
@@ -56,6 +63,15 @@ public abstract class ChessPiece : MonoBehaviour
         square.ChessPiece = this;
 
         OnBeforeMoveCustomAction(move);
+
+        if (move.IsCaptured)
+        {
+            captureAudioSource.Play();
+        }
+        else
+        {
+            moveAudioSource.Play();
+        }
         
         transform.DOMove(movedSquare.transform.position, moveDuration).OnComplete(() =>
         {
