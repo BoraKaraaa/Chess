@@ -166,6 +166,7 @@ public class TurnController : Singleton<TurnController>
         if (ChessAPI.IsDraw())
         {
             gameResultText.text = "DRAW";
+            AudioManager.Instance.CheckMateAudioSource.Play();
             return;
         }
         
@@ -183,6 +184,7 @@ public class TurnController : Singleton<TurnController>
         else
         {
             gameResultText.text = "" + currentTurn + " Lost";
+            AudioManager.Instance.CheckMateAudioSource.Play();
         }
     }
 

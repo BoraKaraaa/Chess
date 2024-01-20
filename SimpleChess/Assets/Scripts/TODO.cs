@@ -3,10 +3,10 @@ public class TODO
 {
     // TODO: 
     // Add Move and Capture Audio (finished)
-    // Make UI responsive (cont.)
-    // Make Player vs Bot mode (cont.)
+    // Make UI responsive (finished)
+    // Make Player vs Bot mode (finished)
     // 1_ When player click any piece put legal moves into dictionary (finished)
-    // Make player promotion UI 
+    // Make player promotion UI (finished)
     // Fen String Notation
     // Bitboard Representation
     // Check Draw conditions

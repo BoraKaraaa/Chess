@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
@@ -9,6 +8,12 @@ public class ClickTriggerHandler : MonoBehaviour
     [SerializeField] private Clickable2D clickable2D;
 
     [SerializeField] private float speed;
+
+    public ChessPiece ChessPiece
+    {
+        get => chessPiece;
+        set => chessPiece = value;
+    }
     
     private Vector3 mousePos;
     private Vector3 partialRes;
@@ -68,11 +73,16 @@ public class ClickTriggerHandler : MonoBehaviour
             }
             else
             {
-                chessPiece.transform.DOMove(initialPos, 0.2f);
+                ReturnInitialPos();
             }
         }
     }
-
+    
+    public void ReturnInitialPos()
+    {
+        chessPiece.transform.DOMove(initialPos, 0.2f);
+    }
+    
     private IEnumerator OnChessPieceDragged()
     {
         while (true)

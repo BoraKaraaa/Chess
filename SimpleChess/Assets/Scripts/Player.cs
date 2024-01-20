@@ -15,7 +15,14 @@ public class Player : Singleton<Player>
     private ChessPiece selectedChessPiece;
     
     public Action<Move> OnMoveMade;
-    
+
+    private Move lastMove;
+
+    private void OnDestroy()
+    {
+        PromotionUI.Instance.OnPromotionPieceSelected -= OnPromotionPieceSelected;
+    }
+
     public void PlayerTurn(Action<Move> OnMoveMade)
     {
         this.OnMoveMade = OnMoveMade;
@@ -44,17 +51,26 @@ public class Player : Singleton<Player>
 
     public void PlayerMove(Move move)
     {
+        lastMove = move;
         legalMoveDictionary.Clear();
         
         DisableChessPieceColliders();
+        
+        if (move.IsPromotion)
+        {
+            PromotionUI.Instance.ActivatePieceUI(eColor, move.MovedChessPiece);
+            PromotionUI.Instance.OnPromotionPieceSelected += OnPromotionPieceSelected;
+            return;
+        }
         
         if (move.IsCaptured)
         {
             move.CapturedChessPiece.Captured();
         }
         
-        move.MovedChessPiece.Move(move, OnMoveMade); 
+        move.MovedChessPiece.Move(move, OnMoveMade);
     }
+    
 
     public Move IsSquareIncludedToLegalMoves(Square square)
     {
@@ -68,7 +84,28 @@ public class Player : Singleton<Player>
 
         return null;
     }
-    
+
+    private void OnPromotionPieceSelected(EChessPiece eChessPiece)
+    {
+        PromotionUI.Instance.OnPromotionPieceSelected -= OnPromotionPieceSelected;
+        
+        if (eChessPiece == EChessPiece.NONE)
+        {
+            lastMove.MovedChessPiece.ClickTriggerHandler.ReturnInitialPos();
+            EnableChessPieceColliders();
+        }
+        else
+        {
+            if (lastMove.IsCaptured)
+            {
+                lastMove.CapturedChessPiece.Captured();
+            }
+            
+            lastMove.PromotionType = eChessPiece;
+            lastMove.MovedChessPiece.Move(lastMove, OnMoveMade);
+        }
+    }
+
     private void EnableChessPieceColliders()
     {
         if (eColor == EColor.WHITE)

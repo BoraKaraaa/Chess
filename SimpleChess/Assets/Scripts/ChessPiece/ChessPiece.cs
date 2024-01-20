@@ -17,9 +17,6 @@ public abstract class ChessPiece : MonoBehaviour
 {
     [SerializeField] private ClickTriggerHandler clickTriggerHandler;
     
-    [SerializeField] private AudioSource moveAudioSource;
-    [SerializeField] private AudioSource captureAudioSource;
-    
     [SerializeField] protected EColor eColor;
     [SerializeField] protected EChessPiece eChessPiece;
 
@@ -27,7 +24,11 @@ public abstract class ChessPiece : MonoBehaviour
     
     [SerializeField] protected Square square;
 
-    public ClickTriggerHandler ClickTriggerHandler => clickTriggerHandler;
+    public ClickTriggerHandler ClickTriggerHandler
+    {
+        get => clickTriggerHandler;
+        set => clickTriggerHandler = value;
+    }
     
     private float moveDuration = 0.2f;
 
@@ -66,11 +67,15 @@ public abstract class ChessPiece : MonoBehaviour
 
         if (move.IsCaptured)
         {
-            captureAudioSource.Play();
+            AudioManager.Instance.CaptureAudioSource.Play();
+        }
+        else if(move.IsPromotion)
+        {
+            AudioManager.Instance.PromotionAudioSource.Play();
         }
         else
         {
-            moveAudioSource.Play();
+            AudioManager.Instance.MoveAudioSource.Play();
         }
         
         transform.DOMove(movedSquare.transform.position, moveDuration).OnComplete(() =>

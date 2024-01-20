@@ -61,8 +61,12 @@ public class Pawn : ChessPiece
             promotedPiece.name = "" + eColor + eChessPiece;
             promotedPiece.EColor = this.EColor;
             promotedPiece.Square = move.TargetSquare;
+
+            promotedPiece.ClickTriggerHandler = GetComponentInChildren<ClickTriggerHandler>();
+            promotedPiece.ClickTriggerHandler.ChessPiece = promotedPiece;
             
             GetComponentInChildren<SpriteRenderer>().sprite = promotedPieceSprite;
+            
 
             if (eColor == EColor.WHITE)
             {
