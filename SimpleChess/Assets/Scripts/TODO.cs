@@ -7,8 +7,8 @@ public class TODO
     // Make Player vs Bot mode (finished)
     // 1_ When player click any piece put legal moves into dictionary (finished)
     // Make player promotion UI (finished)
-    // Fen String Notation
-    // Bitboard Representation
+    // Fen String Notation (finished)
+    // Bitboard Representation (cont.)
     // Check Draw conditions
     //  1_ 3 same position
     //  2_ 50 move rule

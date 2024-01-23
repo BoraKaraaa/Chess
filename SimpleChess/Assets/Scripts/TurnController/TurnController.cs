@@ -18,13 +18,19 @@ public class TurnController : Singleton<TurnController>
 
     [Header("Black Chess Bot")] 
     [SerializeField] private ChessBot blackChessBot;
-
+    
+    [Space(20)]
+    
     [SerializeField] private TMP_Text gameResultText;
+        
+    [SerializeField] private List<GameObject> deactivateUIElements;
     
     public Action ChessMatchStarted;
     public Action ChessMatchResumed;
     public Action ChessMatchStopped;
 
+    public Action ChessMatchedFinished;
+    
     public Action<EColor> OnTurn;
     
     private EColor currentTurn = EColor.WHITE;
@@ -81,7 +87,8 @@ public class TurnController : Singleton<TurnController>
                 whiteChessBot.EColor = EColor.BLACK;
             }
         }
-        
+
+        StartGameCustomActions();
         StartNewMatch();
     }
 
@@ -104,11 +111,14 @@ public class TurnController : Singleton<TurnController>
     private void Restart()
     {
         gameResultText.text = String.Empty;
+
+        if (!FENstringController.IsFenStringValid)
+        {
+            ChessBoard.Instance.ClearSquareRef();
         
-        ChessBoard.Instance.ClearSquareRef();
-        
-        ChessPieceSpawner.Instance.ClearChessPieceRuntime();
-        ChessPieceSpawner.Instance.InitChessPieces();
+            ChessPieceSpawner.Instance.ClearChessPieceRuntime();
+            ChessPieceSpawner.Instance.InitChessPieces();   
+        }
         
         moveHistoryList.Clear();
 
@@ -167,6 +177,9 @@ public class TurnController : Singleton<TurnController>
         {
             gameResultText.text = "DRAW";
             AudioManager.Instance.CheckMateAudioSource.Play();
+            
+            EndGameCustomActions();
+            ChessMatchedFinished?.Invoke();
             return;
         }
         
@@ -185,12 +198,31 @@ public class TurnController : Singleton<TurnController>
         {
             gameResultText.text = "" + currentTurn + " Lost";
             AudioManager.Instance.CheckMateAudioSource.Play();
+            
+            EndGameCustomActions();
+            ChessMatchedFinished?.Invoke();
         }
     }
 
     public EColor NextTurnColor()
     {
         return currentTurn == EColor.WHITE ? EColor.BLACK : EColor.WHITE;
+    }
+
+    private void StartGameCustomActions()
+    {
+        foreach (var deactivateUIElement in deactivateUIElements)
+        {
+            deactivateUIElement.SetActive(false);
+        }
+    }
+
+    private void EndGameCustomActions()
+    {
+        foreach (var deactivateUIElement in deactivateUIElements)
+        {
+            deactivateUIElement.SetActive(true);
+        }
     }
     
     public void PauseGame()

@@ -14,7 +14,7 @@ public class PlayButtonActivity : ButtonActivity
     [SerializeField] private EGameMode gameMode;
     
     public static Action<EGameMode> OnPlayButtonPressed;
-    
+
     public override void OnPointerClick(PointerEventData eventData)
     {
         OnPlayButtonPressed?.Invoke(gameMode);
