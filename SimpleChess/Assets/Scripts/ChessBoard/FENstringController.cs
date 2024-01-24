@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using System.Text;
 using UnityEngine;
 using System;
 using TMPro;
@@ -9,20 +10,72 @@ public class FENstringController : Singleton<FENstringController>
 
     public static bool IsFenStringValid = false;
     
+    private StringBuilder fenBuilder = new StringBuilder();
+    
     private void Awake()
     {
-        inputField.onEndEdit.AddListener(OnFenStringEntered);
+        if (inputField != null)
+        {
+            inputField.onEndEdit.AddListener(OnFenStringEntered);
+        }
     }
 
     private void OnDestroy()
     {
-        inputField.onEndEdit.RemoveListener(OnFenStringEntered);
+        if (inputField != null)
+        {
+            inputField.onEndEdit.RemoveListener(OnFenStringEntered);
+        }
     }
 
-    public void LoadFenStringBoard()
+    public string GetCurrentBoardFenString()
     {
+        fenBuilder.Clear();
 
+        for (int row = 7; row >= 0; row--)
+        {
+            int emptySquareCount = 0;
+
+            for (int col = 0; col < 8; col++)
+            {
+                Square square = ChessBoard.Instance.Board[col][row];
+                ChessPiece piece = square.ChessPiece;
+
+                if (piece != null)
+                {
+                    if (emptySquareCount > 0)
+                    {
+                        fenBuilder.Append(emptySquareCount);
+                        emptySquareCount = 0;
+                    }
+
+                    char pieceChar = GetCharFromPiece(piece);
+                    fenBuilder.Append(piece.EColor == EColor.WHITE ? char.ToUpper(pieceChar) : pieceChar);
+                }
+                else
+                {
+                    emptySquareCount++;
+                }
+            }
+
+            if (emptySquareCount > 0)
+            {
+                fenBuilder.Append(emptySquareCount);
+            }
+
+            if (row > 0)
+            {
+                fenBuilder.Append("/");
+            }
+        }
+
+        //fenBuilder.Append(" ");
+        //fenBuilder.Append(TurnController.Instance.CurrentTurn == EColor.WHITE ? "w" : "b");
+        //fenBuilder.Append(" KQkq - 0 1");
+
+        return fenBuilder.ToString();
     }
+
     
     private void OnFenStringEntered(string fenString)
     {
@@ -157,7 +210,28 @@ public class FENstringController : Singleton<FENstringController>
             }
         }
     }
-
+    
+    private char GetCharFromPiece(ChessPiece piece)
+    {
+        switch (piece.EChessPiece)
+        {
+            case EChessPiece.PAWN:
+                return 'p';
+            case EChessPiece.KNIGHT:
+                return 'n';
+            case EChessPiece.BISHOP:
+                return 'b';
+            case EChessPiece.ROOK:
+                return 'r';
+            case EChessPiece.QUEEN:
+                return 'q';
+            case EChessPiece.KING:
+                return 'k';
+            default:
+                return ' ';
+        }
+    }
+    
     private EChessPiece GetPieceTypeFromChar(char c)
     {
         switch (char.ToUpper(c))

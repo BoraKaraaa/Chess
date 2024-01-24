@@ -8,10 +8,9 @@ public class TODO
     // 1_ When player click any piece put legal moves into dictionary (finished)
     // Make player promotion UI (finished)
     // Fen String Notation (finished)
-    // Bitboard Representation (cont.)
-    // Check Draw conditions
-    //  1_ 3 same position
-    //  2_ 50 move rule
+    // Check Draw conditions (finished)
+    //  1_ 3 same position (finished)
+    //  2_ 50 move rule (finished)
     // Optimize move generation
     //  1_ Switching data structure list to array[max_possible_movement] 
     //  2_ Create moves in stack using Span, stackalloc
@@ -24,4 +23,7 @@ public class TODO
     //  ...
     //  
     // While improving MyBot arrange heuristic values accordingly 
+    
+    // FEATURES:
+    // Bitboard Representation
 }

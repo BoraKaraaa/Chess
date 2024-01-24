@@ -39,7 +39,7 @@ public class TurnController : Singleton<TurnController>
         get => currentTurn;
         set => currentTurn = value;
     }
-
+    
     private List<Move> moveHistoryList = new List<Move>();
 
     public List<Move> MoveHistoryList
@@ -47,9 +47,17 @@ public class TurnController : Singleton<TurnController>
         get => moveHistoryList;
         set => moveHistoryList = value;
     }
-
+    
     public int TotalMoveCount => moveHistoryList.Count;
+    
+    private Dictionary<string, int> fenHistory = new Dictionary<string, int>();
 
+    private bool threeMoveRepetition = false;
+    public bool ThreeMoveRepetition => threeMoveRepetition;
+
+    private int fiftyMoveCounter = 0;
+    public int FiftyMoveCounter => fiftyMoveCounter;
+    
     private EGameMode gameMode;
     
     private void Awake()
@@ -119,8 +127,6 @@ public class TurnController : Singleton<TurnController>
             ChessPieceSpawner.Instance.ClearChessPieceRuntime();
             ChessPieceSpawner.Instance.InitChessPieces();   
         }
-        
-        moveHistoryList.Clear();
 
         currentTurn = EColor.WHITE;
     }
@@ -173,6 +179,9 @@ public class TurnController : Singleton<TurnController>
 
         currentTurn = NextTurnColor();
 
+        UpdateBoardStateString();
+        UpdateFiftyMoveCounter();
+        
         if (ChessAPI.IsDraw())
         {
             gameResultText.text = "DRAW";
@@ -219,10 +228,47 @@ public class TurnController : Singleton<TurnController>
 
     private void EndGameCustomActions()
     {
+        fiftyMoveCounter = 0;
+        
+        moveHistoryList.Clear();
+        
+        fenHistory.Clear();
+        threeMoveRepetition = false;
+        
         foreach (var deactivateUIElement in deactivateUIElements)
         {
             deactivateUIElement.SetActive(true);
         }
+    }
+
+    private void UpdateBoardStateString()
+    {
+        string boardFenString = FENstringController.Instance.GetCurrentBoardFenString();
+
+        if (fenHistory.ContainsKey(boardFenString))
+        {
+            if (++fenHistory[boardFenString] >= 3)
+            {
+                threeMoveRepetition = true;
+            }
+        }
+        else
+        {
+            fenHistory.Add(boardFenString, 1);
+        }
+    }
+    
+    private void UpdateFiftyMoveCounter()
+    {
+        Move lastMove = ChessAPI.GetLastMove();
+
+        if (lastMove.IsCaptured || lastMove.MovedChessPiece.EChessPiece == EChessPiece.PAWN 
+                                || lastMove.IsPromotion)
+        {
+            fiftyMoveCounter = 0;
+        }
+
+        fiftyMoveCounter++;
     }
     
     public void PauseGame()

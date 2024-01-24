@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 public static class ChessAPI
 {
@@ -271,8 +270,15 @@ public static class ChessAPI
 
     public static bool IsDraw()
     {
-        // TODO: Check Last 3 moves 
-        
+        if (TurnController.Instance.FiftyMoveCounter >= 100)
+        {
+            return true;
+        }
+
+        if (TurnController.Instance.ThreeMoveRepetition)
+        {
+            return true;
+        }
         
         if (IsCheckMe())
         {
