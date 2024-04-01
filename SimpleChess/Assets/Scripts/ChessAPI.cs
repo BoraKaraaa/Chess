@@ -129,6 +129,11 @@ public static class ChessAPI
         return false;
     }
 
+    public static float GetLateGameRate()
+    {
+        return 1 - ((ChessPieceSpawner.Instance.WhitePieces.Count + ChessPieceSpawner.Instance.BlackPieces.Count) / 32);
+    }
+
     
     public static void MakeAbstractMove(Move move)
     {

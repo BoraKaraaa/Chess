@@ -40,10 +40,12 @@ public class MyBot : ChessBot
     private const int MIN_VAL = -9999999;
     
     private const int ABSOLUTE_WIN = 30;
+
+    private const int MIN_CALC_MOVE = 4;
     
     public override Move BestMove()
     {
-        return CalculateNDepthMoves(4);
+        return CalculateNDepthMoves(MIN_CALC_MOVE); // + (int)(2 * ChessAPI.GetLateGameRate()));
     }
 
     private Move CalculateNDepthMoves(int depth)
@@ -150,6 +152,13 @@ public class MyBot : ChessBot
         
         return preHeuristicVal;
     }
+
+    private int GetPushKingCornerHeuristic()
+    {
+        King oppKing = (King)ChessAPI.GetOpponentKing();
+        return (int)((8 - Math.Min(7 - oppKing.Square.Row, oppKing.Square.Row) + Math.Min(7 - oppKing.Square.Col, oppKing.Square.Col)) 
+                     * 5 * ChessAPI.GetLateGameRate() * ChessAPI.GetLateGameRate());
+    }
     
     private int CalculatePositionValue(MoveNode moveNode, out bool isCheck)
     {
@@ -186,7 +195,10 @@ public class MyBot : ChessBot
             chessPieces = ChessAPI.GetOpponentPieces();
             oppChessPieces = ChessAPI.GetMyPieces();
         }
-
+        
+        // feature
+        // totalHeuristicVal += IsIPlaying(moveNode.Depth) ? GetPushKingCornerHeuristic() : -GetPushKingCornerHeuristic();    
+        
         foreach (var chessPiece in chessPieces)
         {
             if (chessPiece.EChessPiece == EChessPiece.PAWN)
@@ -241,19 +253,19 @@ public class MyBot : ChessBot
             {
                 if (totalHeuristicVal > ABSOLUTE_WIN)
                 {
-                    totalHeuristicVal -= 100;
+                    totalHeuristicVal -= 500;
                 }
 
-                totalHeuristicVal += 100;
+                totalHeuristicVal += 500;
             }
             else
             {
                 if (totalHeuristicVal < -ABSOLUTE_WIN)
                 {
-                    totalHeuristicVal += 100;
+                    totalHeuristicVal += 500;
                 }
 
-                totalHeuristicVal -= 100;   
+                totalHeuristicVal -= 500;   
             }
         }
         

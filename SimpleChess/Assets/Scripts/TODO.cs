@@ -17,7 +17,7 @@ public class TODO
     // Improve MyBot
     //  1_ Search extensions
     //  2_ Arrange minimax depth using possible moves count + time
-    //  3_ Late game push opp. king to corner logic
+    //  3_ Late game push opp. king to corner logic (cont.)
     //  4_ Early, mid. late game positional values
     //  5_ Passing pawns
     //  ...
