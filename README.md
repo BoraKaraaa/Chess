@@ -4,4 +4,6 @@ For my university project, I'm developing a chess game and AI chess bot using th
 
 (In development)
 
-itch io: https://hinkirmunkur.itch.io/simply-chess
+To play the game: https://hinkirmunkur.itch.io/simply-chess
+
+Broad Description of Game AI: https://github.com/BoraKaraaa/King-s-Gambit/blob/main/ShotgunKingAI.pdf
