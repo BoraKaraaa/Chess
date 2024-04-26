@@ -49,9 +49,6 @@ public class ChessGameManager
             Span<Move> legalMoves = legalMoveArea.AsSpan();
             Span<Move> captureMoves = captureMoveArea.AsSpan();
             
-            legalMoves.Clear();
-            captureMoves.Clear();
-            
             foreach (ChessPiece chessPiece in ChessAPI.GetMyPieces())
             {
                 chessPiece.GetLegalAndCaptureMoves(ref legalMoves, ref legalMoveIndex, ref captureMoves, ref captureMoveIndex);
