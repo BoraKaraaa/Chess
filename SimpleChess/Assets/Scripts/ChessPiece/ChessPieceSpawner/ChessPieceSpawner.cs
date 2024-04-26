@@ -2,6 +2,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using EasyButtons;
 
+public struct EChessPieceSpec
+{
+    public EColor Color;
+    public EChessPiece ChessPiece;
+    public int Index;
+
+    public EChessPieceSpec(EColor color, EChessPiece chessPiece, int index)
+    {
+        Color = color;
+        ChessPiece = chessPiece;
+        Index = index;
+    }
+    
+    public static bool operator ==(EChessPieceSpec c1, EChessPieceSpec c2)
+    {
+        return c1.Color == c2.Color && c1.ChessPiece == c2.ChessPiece && c1.Index == c2.Index;
+    }
+
+    public static bool operator !=(EChessPieceSpec c1, EChessPieceSpec c2)
+    {
+        return !(c1 == c2);
+    }
+}
+
+public class ChessPieceSpecComparer : IEqualityComparer<EChessPieceSpec>
+{
+    public bool Equals(EChessPieceSpec o1, EChessPieceSpec o2)
+    {
+        return o1 == o2;
+    }
+
+    public int GetHashCode(EChessPieceSpec obj)
+    {
+        return obj.GetHashCode();
+    }
+}
+
+
 public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
 {
     [SerializeField] private ChessBoard chessBoard;
@@ -47,7 +85,48 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
     
     public List<ChessPiece> WhitePieces;
     public List<ChessPiece> BlackPieces;
+
+    public Dictionary<EChessPieceSpec, ChessPiece> AllPieces;
+
+    private void Awake()
+    {
+        AllPieces = new Dictionary<EChessPieceSpec, ChessPiece>(new ChessPieceSpecComparer());
+    }
     
+    private void InitAllWhitePieces()
+    {
+        for (int i = 0; i < chessBoard.Width; i++)
+        {
+            AllPieces.Add(new EChessPieceSpec(EColor.WHITE, EChessPiece.PAWN, i), WhitePieces[WhitePieces.Count-1-i]);
+        }
+        
+        AllPieces.Add(new EChessPieceSpec(EColor.WHITE, EChessPiece.KNIGHT, 1), WhitePieces[7]);
+        AllPieces.Add(new EChessPieceSpec(EColor.WHITE, EChessPiece.KNIGHT, 6), WhitePieces[6]);
+        AllPieces.Add(new EChessPieceSpec(EColor.WHITE, EChessPiece.BISHOP, 2), WhitePieces[5]);
+        AllPieces.Add(new EChessPieceSpec(EColor.WHITE, EChessPiece.BISHOP, 5), WhitePieces[4]);
+        AllPieces.Add(new EChessPieceSpec(EColor.WHITE, EChessPiece.ROOK, 0), WhitePieces[3]);
+        AllPieces.Add(new EChessPieceSpec(EColor.WHITE, EChessPiece.ROOK, 7), WhitePieces[2]);
+        AllPieces.Add(new EChessPieceSpec(EColor.WHITE, EChessPiece.QUEEN, 3), WhitePieces[1]);
+        AllPieces.Add(new EChessPieceSpec(EColor.WHITE, EChessPiece.KING, 4), WhitePieces[0]);
+    }
+    
+    private void InitAllBlackPieces()
+    {
+        for (int i = 0; i < chessBoard.Width; i++)
+        {
+            AllPieces.Add(new EChessPieceSpec(EColor.BLACK, EChessPiece.PAWN, i), BlackPieces[BlackPieces.Count-1-i]);
+        }
+        
+        AllPieces.Add(new EChessPieceSpec(EColor.BLACK, EChessPiece.KNIGHT, 1), BlackPieces[7]);
+        AllPieces.Add(new EChessPieceSpec(EColor.BLACK, EChessPiece.KNIGHT, 6), BlackPieces[6]);
+        AllPieces.Add(new EChessPieceSpec(EColor.BLACK, EChessPiece.BISHOP, 2), BlackPieces[5]);
+        AllPieces.Add(new EChessPieceSpec(EColor.BLACK, EChessPiece.BISHOP, 5), BlackPieces[4]);
+        AllPieces.Add(new EChessPieceSpec(EColor.BLACK, EChessPiece.ROOK, 0), BlackPieces[3]);
+        AllPieces.Add(new EChessPieceSpec(EColor.BLACK, EChessPiece.ROOK, 7), BlackPieces[2]);
+        AllPieces.Add(new EChessPieceSpec(EColor.BLACK, EChessPiece.QUEEN, 3), BlackPieces[1]);
+        AllPieces.Add(new EChessPieceSpec(EColor.BLACK, EChessPiece.KING, 4), BlackPieces[0]);
+    }
+
     public void SpawnChessPiece(EColor color, EChessPiece chessPiece, int row, int col)
     {
         switch (chessPiece)
@@ -95,9 +174,13 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
     {
         Pawn createdWhitePawn = Instantiate(whitePawn, chessBoard.Board[y][x].transform.position,
             Quaternion.identity, chessPieceParent);
-
+    
         createdWhitePawn.Square = chessBoard.Board[y][x];
         createdWhitePawn.Square.ChessPiece = createdWhitePawn;
+        createdWhitePawn.EChessPiece = EChessPiece.PAWN;
+        
+        createdWhitePawn.PieceIndex = x;
+        
         WhitePieces.Add(createdWhitePawn);
     }
 
@@ -108,6 +191,10 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
 
         createdBlackPawn.Square = chessBoard.Board[y][x];
         createdBlackPawn.Square.ChessPiece = createdBlackPawn;
+        createdBlackPawn.EChessPiece = EChessPiece.PAWN;
+        
+        createdBlackPawn.PieceIndex = x;
+        
         BlackPieces.Add(createdBlackPawn);
     }
 
@@ -118,6 +205,10 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
 
         createdWhiteKnight.Square = chessBoard.Board[y][x];
         createdWhiteKnight.Square.ChessPiece = createdWhiteKnight;
+        createdWhiteKnight.EChessPiece = EChessPiece.KNIGHT;
+        
+        createdWhiteKnight.PieceIndex = x;
+        
         WhitePieces.Add(createdWhiteKnight);
     }
 
@@ -128,6 +219,10 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
 
         createdBlackKnight.Square = chessBoard.Board[y][x];
         createdBlackKnight.Square.ChessPiece = createdBlackKnight;
+        createdBlackKnight.EChessPiece = EChessPiece.KNIGHT;
+        
+        createdBlackKnight.PieceIndex = x;
+        
         BlackPieces.Add(createdBlackKnight);
     }
 
@@ -138,6 +233,10 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
 
         createdWhiteBishop.Square = chessBoard.Board[y][x];
         createdWhiteBishop.Square.ChessPiece = createdWhiteBishop;
+        createdWhiteBishop.EChessPiece = EChessPiece.BISHOP;
+        
+        createdWhiteBishop.PieceIndex = x;
+        
         WhitePieces.Add(createdWhiteBishop);
     }
 
@@ -148,6 +247,10 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
 
         createdBlackBishop.Square = chessBoard.Board[y][x];
         createdBlackBishop.Square.ChessPiece = createdBlackBishop;
+        createdBlackBishop.EChessPiece = EChessPiece.BISHOP;
+        
+        createdBlackBishop.PieceIndex = x;
+        
         BlackPieces.Add(createdBlackBishop);
     }
 
@@ -158,6 +261,10 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
         
         createdWhiteRook.Square = chessBoard.Board[y][x];
         createdWhiteRook.Square.ChessPiece = createdWhiteRook;
+        createdWhiteRook.EChessPiece = EChessPiece.ROOK;
+        
+        createdWhiteRook.PieceIndex = x;
+        
         WhitePieces.Add(createdWhiteRook);
 
         if (x == 0 && y == 0)
@@ -177,6 +284,10 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
 
         createdBlackRook.Square = chessBoard.Board[y][x];
         createdBlackRook.Square.ChessPiece = createdBlackRook;
+        createdBlackRook.EChessPiece = EChessPiece.ROOK;
+        
+        createdBlackRook.PieceIndex = x;
+        
         BlackPieces.Add(createdBlackRook);
         
         if (x == 0 && y == 7)
@@ -196,6 +307,10 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
 
         createdWhiteQueen.Square = chessBoard.Board[y][x];
         createdWhiteQueen.Square.ChessPiece = createdWhiteQueen;
+        createdWhiteQueen.EChessPiece = EChessPiece.QUEEN;
+        
+        createdWhiteQueen.PieceIndex = x;
+        
         WhitePieces.Add(createdWhiteQueen);
     }
 
@@ -206,6 +321,10 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
 
         createdBlackQueen.Square = chessBoard.Board[y][x];
         createdBlackQueen.Square.ChessPiece = createdBlackQueen;
+        createdBlackQueen.EChessPiece = EChessPiece.QUEEN;
+        
+        createdBlackQueen.PieceIndex = x;
+        
         BlackPieces.Add(createdBlackQueen);
     }
     
@@ -216,6 +335,10 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
 
         createdWhiteKing.Square = chessBoard.Board[y][x];
         createdWhiteKing.Square.ChessPiece = createdWhiteKing;
+        createdWhiteKing.EChessPiece = EChessPiece.KING;
+        
+        createdWhiteKing.PieceIndex = x;
+        
         WhitePieces.Add(createdWhiteKing);
         whiteKingInstance = createdWhiteKing;
     }
@@ -227,6 +350,10 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
 
         createdBlackKing.Square = chessBoard.Board[y][x];
         createdBlackKing.Square.ChessPiece = createdBlackKing;
+        createdBlackKing.EChessPiece = EChessPiece.KING;
+        
+        createdBlackKing.PieceIndex = x;
+        
         BlackPieces.Add(createdBlackKing);
         blackKingInstance = createdBlackKing;
     }
@@ -274,6 +401,13 @@ public class ChessPieceSpawner : Singleton<ChessPieceSpawner>
         
         WhitePieces.Reverse();
         BlackPieces.Reverse();
+
+        if (Application.isPlaying)
+        {
+            AllPieces.Clear();
+            InitAllWhitePieces();
+            InitAllBlackPieces();
+        }
     }
     
     private void ClearChessPieces()

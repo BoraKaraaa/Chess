@@ -1,4 +1,4 @@
 public interface IChessBot
 {
-    public Move BestMove();
+    public Move BestMove(ChessGameManager chessGameManager);
 }

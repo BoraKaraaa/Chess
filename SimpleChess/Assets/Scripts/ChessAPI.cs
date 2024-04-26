@@ -26,14 +26,14 @@ public static class ChessAPI
     {
         return ChessPieceSpawner.Instance.BlackPieces;
     }
-
-    public static ChessPiece[] GetAllChessPieces()
+    
+    public static List<ChessPiece> GetAllChessPieces()
     {
         List<ChessPiece> allChessPiecesList = new List<ChessPiece>();
         allChessPiecesList.AddRange(GetWhitePieces());
         allChessPiecesList.AddRange(GetBlackPieces());
 
-        return allChessPiecesList.ToArray();
+        return allChessPiecesList;
     }
 
     public static ChessPiece GetOpponentKing()
@@ -68,7 +68,7 @@ public static class ChessAPI
     {
         if (TurnController.Instance.MoveHistoryList.Count == 0)
         {
-            return null;
+            return new Move(true);
         }
         
         return TurnController.Instance.MoveHistoryList[^1];
@@ -133,9 +133,8 @@ public static class ChessAPI
     {
         return 1 - ((ChessPieceSpawner.Instance.WhitePieces.Count + ChessPieceSpawner.Instance.BlackPieces.Count) / 32);
     }
-
     
-    public static void MakeAbstractMove(Move move)
+    public static void MakeAbstractMove(ref Move move)
     {
         TurnController.Instance.CurrentTurn = TurnController.Instance.NextTurnColor();
         TurnController.Instance.MoveHistoryList.Add(move);
@@ -160,7 +159,7 @@ public static class ChessAPI
         }
     }
 
-    public static void UndoAbstractMove(Move move)
+    public static void UndoAbstractMove(ref Move move)
     {
         TurnController.Instance.CurrentTurn = TurnController.Instance.NextTurnColor();
         TurnController.Instance.MoveHistoryList.RemoveAt(TurnController.Instance.MoveHistoryList.Count-1);
@@ -187,17 +186,17 @@ public static class ChessAPI
         }
     }
 
-    public static bool IsMoveCheck(Move move)
+    public static bool IsMoveCheck(ref Move move)
     {
-        MakeAbstractMove(move);
+        MakeAbstractMove(ref move);
         
         if (IsCheckMe())
         {
-            UndoAbstractMove(move);
+            UndoAbstractMove(ref move);
             return true;
         }
         
-        UndoAbstractMove(move);
+        UndoAbstractMove(ref move);
         return false;
     }
     
@@ -230,152 +229,4 @@ public static class ChessAPI
         
         return false;
     }
-    
-    public static bool IsCheckMate()
-    {
-        if (!IsCheckMe())
-        {
-            return false;
-        }
-        
-        ChessPiece king = GetMyKing();
-
-        if (king.GetLegalMoves().Item1.Length == 0)
-        {
-            foreach (var chessPiece in GetMyPieces())
-            {
-                if (chessPiece.EChessPiece != EChessPiece.KING)
-                {
-                    foreach (var move in chessPiece.GetLegalMoves().Item1)
-                    {
-                        // Make Move
-                        MakeAbstractMove(move);
-                        
-                        // Control Check
-
-                        if (!IsCheckOpp())
-                        {
-                            UndoAbstractMove(move);
-                            return false;
-                        }
-                        
-                        // Undo Move
-                        UndoAbstractMove(move);
-                    }       
-                }
-            }
-        }
-        else
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    public static bool IsDraw()
-    {
-        if (TurnController.Instance.FiftyMoveCounter >= 100)
-        {
-            return true;
-        }
-
-        if (TurnController.Instance.ThreeMoveRepetition)
-        {
-            return true;
-        }
-        
-        if (IsCheckMe())
-        {
-            return false;
-        }
-        
-        foreach (var chessPiece in GetMyPieces())
-        {
-            if (chessPiece.GetLegalMoves().Item1.Length != 0)
-            {
-                return false;
-            }
-        }
-        
-        return true;
-    }
-    
-    public static (Move[], Move[]) GetLegalAndCaptureMoves()
-    {
-        List<ChessPiece> chessPieces;
-        
-        if (TurnController.Instance.CurrentTurn == EColor.WHITE)
-        {
-            chessPieces = GetWhitePieces();
-        }
-        else
-        {
-            chessPieces = GetBlackPieces();
-        }
-
-        List<Move> totalLegalMoves = new List<Move>();
-        List<Move> totalLegalCaptureMoves = new List<Move>();
-        
-        foreach (ChessPiece chessPiece in chessPieces)
-        {
-            (Move[], Move[]) legalMoves = chessPiece.GetLegalMoves();
-            
-            totalLegalMoves.AddRange(legalMoves.Item1);
-            totalLegalCaptureMoves.AddRange(legalMoves.Item2);
-        }
-        
-        return (totalLegalMoves.ToArray(), totalLegalCaptureMoves.ToArray());
-    }
-
-    public static Move[] GetLegalMoves()
-    {
-        List<ChessPiece> chessPieces;
-        
-        if (TurnController.Instance.CurrentTurn == EColor.WHITE)
-        {
-            chessPieces = GetWhitePieces();
-        }
-        else
-        {
-            chessPieces = GetBlackPieces();
-        }
-        
-        List<Move> totalLegalMoves = new List<Move>();
-        
-        foreach (ChessPiece chessPiece in chessPieces)
-        {
-            (Move[], Move[]) legalMoves = chessPiece.GetLegalMoves();
-            
-            totalLegalMoves.AddRange(legalMoves.Item1);
-        }
-
-        return totalLegalMoves.ToArray();
-    }
-
-    public static Move[] GetCaptureMoves()
-    {
-        List<ChessPiece> chessPieces;
-        
-        if (TurnController.Instance.CurrentTurn == EColor.WHITE)
-        {
-            chessPieces = GetWhitePieces();
-        }
-        else
-        {
-            chessPieces = GetBlackPieces();
-        }
-        
-        List<Move> totalLegalCaptureMoves = new List<Move>();
-        
-        foreach (ChessPiece chessPiece in chessPieces)
-        {
-            (Move[], Move[]) legalMoves = chessPiece.GetLegalMoves();
-
-            totalLegalCaptureMoves.AddRange(legalMoves.Item2);
-        }
-        
-        return totalLegalCaptureMoves.ToArray();
-    }
-    
 }

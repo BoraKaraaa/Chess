@@ -19,10 +19,10 @@ public abstract class ChessPiece : MonoBehaviour
     
     [SerializeField] protected EColor eColor;
     [SerializeField] protected EChessPiece eChessPiece;
-
-    [SerializeField] protected int value;
     
     [SerializeField] protected Square square;
+
+    [SerializeField] private int pieceIndex;
 
     public ClickTriggerHandler ClickTriggerHandler
     {
@@ -49,8 +49,15 @@ public abstract class ChessPiece : MonoBehaviour
         get => square;
         set => square = value;
     }
+
+    public int PieceIndex
+    {
+        get => pieceIndex;
+        set => pieceIndex = value;
+    }
     
-    public abstract (Move[], Move[]) GetLegalMoves();
+    public abstract void GetLegalAndCaptureMoves(ref Span<Move> legalMoves, ref int legalMoveIndex,
+        ref Span<Move> captureMoves, ref int captureMoveIndex);
     
     public abstract bool CanThreatSquare(Square targetSquare);
     

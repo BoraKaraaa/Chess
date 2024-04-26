@@ -10,8 +10,8 @@ public class Player : Singleton<Player>
         set => eColor = value;
     }
 
-    private Dictionary<ChessPiece, (Move[], Move[])> legalMoveDictionary = new Dictionary<ChessPiece, (Move[], Move[])>();
-
+    private ChessGameManager _localChessGameManager;
+    
     private ChessPiece selectedChessPiece;
     
     public Action<Move> OnMoveMade;
@@ -23,8 +23,10 @@ public class Player : Singleton<Player>
         PromotionUI.Instance.OnPromotionPieceSelected -= OnPromotionPieceSelected;
     }
 
-    public void PlayerTurn(Action<Move> OnMoveMade)
+    public void PlayerTurn(ChessGameManager chessGameManager, Action<Move> OnMoveMade)
     {
+        _localChessGameManager = chessGameManager;
+        
         this.OnMoveMade = OnMoveMade;
         EnableChessPieceColliders();
     }
@@ -33,26 +35,28 @@ public class Player : Singleton<Player>
     {
         selectedChessPiece = chessPiece;
 
-        if (!legalMoveDictionary.ContainsKey(chessPiece))
-        { 
-            legalMoveDictionary.Add(chessPiece, chessPiece.GetLegalMoves());
-        }
+        (Move[], Move[]) moves = _localChessGameManager.GetLegalAndCaptureMoves();
 
-        foreach (var legalMove in legalMoveDictionary[chessPiece].Item1)
+        foreach (var legalMove in moves.Item1)
         {
-            ChessBoard.Instance.HighlightMoveSquares(legalMove.TargetSquare);
+            if (legalMove.MovedChessPiece == chessPiece)
+            {
+                ChessBoard.Instance.HighlightMoveSquares(legalMove.TargetSquare);
+            }
         }
-
-        foreach (var captureMove in legalMoveDictionary[chessPiece].Item2)
+        
+        foreach (var captureMove in moves.Item2)
         {
-            ChessBoard.Instance.HighlightCaptureSquares(captureMove.TargetSquare);
+            if (captureMove.MovedChessPiece == chessPiece)
+            {
+                ChessBoard.Instance.HighlightCaptureSquares(captureMove.TargetSquare);
+            }
         }
     }
 
     public void PlayerMove(Move move)
     {
         lastMove = move;
-        legalMoveDictionary.Clear();
         
         DisableChessPieceColliders();
         
@@ -74,15 +78,15 @@ public class Player : Singleton<Player>
 
     public Move IsSquareIncludedToLegalMoves(Square square)
     {
-        foreach (var legalMove in legalMoveDictionary[selectedChessPiece].Item1)
+        foreach (var legalMove in _localChessGameManager.GetLegalAndCaptureMoves().Item1)
         {
-            if (legalMove.TargetSquare == square)
+            if (legalMove.MovedChessPiece == selectedChessPiece && legalMove.TargetSquare == square)
             {
                 return legalMove;
             }
         }
 
-        return null;
+        return new Move(true);
     }
 
     private void OnPromotionPieceSelected(EChessPiece eChessPiece)

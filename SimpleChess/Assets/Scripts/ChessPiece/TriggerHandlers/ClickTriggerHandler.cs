@@ -61,13 +61,13 @@ public class ClickTriggerHandler : MonoBehaviour
             StopAllCoroutines();
             
             ChessBoard.Instance.DefaultAllSquares();
-            
-            Square square = ChessBoard.Instance.GetSquareByPosition(chessPiece.transform.position.x,
-                chessPiece.transform.position.y);
+
+            var position = chessPiece.transform.position;
+            Square square = ChessBoard.Instance.GetSquareByPosition(position.x, position.y);
 
             Move move = Player.Instance.IsSquareIncludedToLegalMoves(square);
 
-            if (square != null && move != null)
+            if (square != null && !move.IsNull)
             {
                 Player.Instance.PlayerMove(move);
             }

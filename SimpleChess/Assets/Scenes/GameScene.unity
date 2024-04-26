@@ -471,8 +471,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 85721524}
   eColor: 1
   eChessPiece: 3
-  value: 0
   square: {fileID: 168678569}
+  pieceIndex: 0
 --- !u!4 &10974419
 Transform:
   m_ObjectHideFlags: 0
@@ -1907,8 +1907,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 1166016396}
   eColor: 0
   eChessPiece: 5
-  value: 0
   square: {fileID: 1943022852}
+  pieceIndex: 0
 --- !u!4 &130990753
 Transform:
   m_ObjectHideFlags: 0
@@ -2689,8 +2689,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 8009621}
   eColor: 0
   eChessPiece: 1
-  value: 0
   square: {fileID: 811534214}
+  pieceIndex: 0
 --- !u!4 &169272619
 Transform:
   m_ObjectHideFlags: 0
@@ -3347,8 +3347,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 221440345}
   eColor: 0
   eChessPiece: 0
-  value: 0
   square: {fileID: 986349898}
+  pieceIndex: 0
 --- !u!4 &204113739
 Transform:
   m_ObjectHideFlags: 0
@@ -3931,8 +3931,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 161519907}
   eColor: 0
   eChessPiece: 3
-  value: 0
   square: {fileID: 1217607982}
+  pieceIndex: 0
 --- !u!4 &225894026
 Transform:
   m_ObjectHideFlags: 0
@@ -5650,8 +5650,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 643234210}
   eColor: 1
   eChessPiece: 2
-  value: 0
   square: {fileID: 490895436}
+  pieceIndex: 0
 --- !u!4 &314098738
 Transform:
   m_ObjectHideFlags: 0
@@ -7096,8 +7096,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 1241380869}
   eColor: 0
   eChessPiece: 3
-  value: 0
   square: {fileID: 973608102}
+  pieceIndex: 0
 --- !u!4 &392427583
 Transform:
   m_ObjectHideFlags: 0
@@ -7612,8 +7612,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 2059691301}
   eColor: 0
   eChessPiece: 0
-  value: 0
   square: {fileID: 563409061}
+  pieceIndex: 0
 --- !u!4 &434204713
 Transform:
   m_ObjectHideFlags: 0
@@ -8276,8 +8276,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 1967659678}
   eColor: 1
   eChessPiece: 0
-  value: 0
   square: {fileID: 1091996617}
+  pieceIndex: 0
 --- !u!4 &479347870
 Transform:
   m_ObjectHideFlags: 0
@@ -9080,8 +9080,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 1864912283}
   eColor: 1
   eChessPiece: 2
-  value: 0
   square: {fileID: 1884089883}
+  pieceIndex: 0
 --- !u!4 &505789931
 Transform:
   m_ObjectHideFlags: 0
@@ -10927,8 +10927,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 1292461971}
   eColor: 1
   eChessPiece: 4
-  value: 0
   square: {fileID: 2102993464}
+  pieceIndex: 0
 --- !u!4 &626640313
 Transform:
   m_ObjectHideFlags: 0
@@ -11428,6 +11428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EColor: 0
+  enableNotationDebug: 0
 --- !u!1 &646072809
 GameObject:
   m_ObjectHideFlags: 0
@@ -11737,8 +11738,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 973394089}
   eColor: 0
   eChessPiece: 2
-  value: 0
   square: {fileID: 129952679}
+  pieceIndex: 0
 --- !u!4 &679317967
 Transform:
   m_ObjectHideFlags: 0
@@ -12000,8 +12001,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 1648697985}
   eColor: 1
   eChessPiece: 0
-  value: 0
   square: {fileID: 1863746453}
+  pieceIndex: 0
 --- !u!4 &690940327
 Transform:
   m_ObjectHideFlags: 0
@@ -12533,8 +12534,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 1316030229}
   eColor: 0
   eChessPiece: 0
-  value: 0
   square: {fileID: 1934366216}
+  pieceIndex: 0
 --- !u!4 &749275027
 Transform:
   m_ObjectHideFlags: 0
@@ -14509,8 +14510,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 564223387}
   eColor: 0
   eChessPiece: 0
-  value: 0
   square: {fileID: 923267296}
+  pieceIndex: 0
 --- !u!4 &862379369
 Transform:
   m_ObjectHideFlags: 0
@@ -15879,8 +15880,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 821039494}
   eColor: 1
   eChessPiece: 0
-  value: 0
   square: {fileID: 1713664231}
+  pieceIndex: 0
 --- !u!4 &937876510
 Transform:
   m_ObjectHideFlags: 0
@@ -19615,8 +19616,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 1356410985}
   eColor: 1
   eChessPiece: 0
-  value: 0
   square: {fileID: 336339083}
+  pieceIndex: 0
 --- !u!4 &1156034191
 Transform:
   m_ObjectHideFlags: 0
@@ -20117,8 +20118,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 1590332579}
   eColor: 0
   eChessPiece: 0
-  value: 0
   square: {fileID: 1973604593}
+  pieceIndex: 0
 --- !u!4 &1175715061
 Transform:
   m_ObjectHideFlags: 0
@@ -20392,8 +20393,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 605632940}
   eColor: 1
   eChessPiece: 1
-  value: 0
   square: {fileID: 442286611}
+  pieceIndex: 0
 --- !u!4 &1202664947
 Transform:
   m_ObjectHideFlags: 0
@@ -20581,8 +20582,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 1682197558}
   eColor: 0
   eChessPiece: 0
-  value: 0
   square: {fileID: 1186559883}
+  pieceIndex: 0
 --- !u!4 &1215169465
 Transform:
   m_ObjectHideFlags: 0
@@ -21015,8 +21016,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 847031429}
   eColor: 0
   eChessPiece: 4
-  value: 0
   square: {fileID: 1112103416}
+  pieceIndex: 0
 --- !u!4 &1241044038
 Transform:
   m_ObjectHideFlags: 0
@@ -22299,8 +22300,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 888312921}
   eColor: 0
   eChessPiece: 0
-  value: 0
   square: {fileID: 330886591}
+  pieceIndex: 0
 --- !u!4 &1342801074
 Transform:
   m_ObjectHideFlags: 0
@@ -22529,8 +22530,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 713422060}
   eColor: 1
   eChessPiece: 1
-  value: 0
   square: {fileID: 765147637}
+  pieceIndex: 0
 --- !u!4 &1357513706
 Transform:
   m_ObjectHideFlags: 0
@@ -26038,8 +26039,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 49815633}
   eColor: 1
   eChessPiece: 0
-  value: 0
   square: {fileID: 20761100}
+  pieceIndex: 0
 --- !u!4 &1596614856
 Transform:
   m_ObjectHideFlags: 0
@@ -28992,8 +28993,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 868710743}
   eColor: 1
   eChessPiece: 0
-  value: 0
   square: {fileID: 1598441636}
+  pieceIndex: 0
 --- !u!4 &1773858235
 Transform:
   m_ObjectHideFlags: 0
@@ -29948,8 +29949,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 1564123719}
   eColor: 1
   eChessPiece: 0
-  value: 0
   square: {fileID: 766247906}
+  pieceIndex: 0
 --- !u!4 &1858647427
 Transform:
   m_ObjectHideFlags: 0
@@ -30280,8 +30281,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 841117347}
   eColor: 1
   eChessPiece: 3
-  value: 0
   square: {fileID: 1150954127}
+  pieceIndex: 0
 --- !u!4 &1877803950
 Transform:
   m_ObjectHideFlags: 0
@@ -30671,8 +30672,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 2053988891}
   eColor: 0
   eChessPiece: 2
-  value: 0
   square: {fileID: 672913240}
+  pieceIndex: 0
 --- !u!4 &1889998039
 Transform:
   m_ObjectHideFlags: 0
@@ -32033,8 +32034,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 496401300}
   eColor: 1
   eChessPiece: 0
-  value: 0
   square: {fileID: 179341967}
+  pieceIndex: 0
 --- !u!4 &1963775097
 Transform:
   m_ObjectHideFlags: 0
@@ -32817,8 +32818,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 1402031946}
   eColor: 1
   eChessPiece: 5
-  value: 0
   square: {fileID: 1550712225}
+  pieceIndex: 0
 --- !u!4 &2014855736
 Transform:
   m_ObjectHideFlags: 0
@@ -32901,8 +32902,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 561553474}
   eColor: 0
   eChessPiece: 0
-  value: 0
   square: {fileID: 1617633050}
+  pieceIndex: 0
 --- !u!4 &2018520410
 Transform:
   m_ObjectHideFlags: 0
@@ -32985,8 +32986,8 @@ MonoBehaviour:
   clickTriggerHandler: {fileID: 1540177904}
   eColor: 0
   eChessPiece: 1
-  value: 0
   square: {fileID: 321241447}
+  pieceIndex: 0
 --- !u!4 &2041380893
 Transform:
   m_ObjectHideFlags: 0
@@ -33368,6 +33369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EColor: 0
+  enableNotationDebug: 0
 --- !u!1 &2077578965
 GameObject:
   m_ObjectHideFlags: 0

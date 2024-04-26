@@ -1,9 +1,12 @@
+using System;
 
 public class Bishop : ChessPiece
 {
-    public override (Move[], Move[]) GetLegalMoves()
+    public override void GetLegalAndCaptureMoves(ref Span<Move> legalMoves, ref int legalMoveIndex,
+        ref Span<Move> captureMoves, ref int captureMoveIndex)
     {
-        return ChessBoardAPI.CheckDiagonalMoves(this, square, 7, eColor);
+        ChessBoardAPI.CheckDiagonalMoves(ref legalMoves, ref legalMoveIndex, ref captureMoves, ref captureMoveIndex,
+            this, square, 7, eColor);
     }
 
     public override bool CanThreatSquare(Square targetSquare)

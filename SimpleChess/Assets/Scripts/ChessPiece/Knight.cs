@@ -1,9 +1,12 @@
+using System;
 
 public class Knight : ChessPiece
 {
-    public override (Move[], Move[]) GetLegalMoves()
+    public override void GetLegalAndCaptureMoves(ref Span<Move> legalMoves, ref int legalMoveIndex,
+        ref Span<Move> captureMoves, ref int captureMoveIndex)
     {
-        return ChessBoardAPI.CheckLMoves(this, square, eColor);
+        ChessBoardAPI.CheckLMoves(ref legalMoves, ref legalMoveIndex, ref captureMoves, ref captureMoveIndex,
+            this, square, eColor);
     }
 
     public override bool CanThreatSquare(Square targetSquare)

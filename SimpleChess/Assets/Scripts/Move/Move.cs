@@ -1,16 +1,44 @@
-using System;
 
-public class Move
+public struct Move
 {
-    public String MoveNotation;
+    //public String MoveNotation;
 
-    public Square InitialSquare;
-    public Square TargetSquare;
+    public int InitialSquareIndex; 
+    public int TargetSquareIndex; 
+    //public Square InitialSquare;
+    //public Square TargetSquare;
+
+    public Square InitialSquare
+    {
+        get => ChessBoard.Instance.Board[InitialSquareIndex / 8][InitialSquareIndex % 8];
+        set => InitialSquareIndex = 8 * value.Row + value.Col;
+    }
+
+    public Square TargetSquare
+    {
+        get => ChessBoard.Instance.Board[TargetSquareIndex / 8][TargetSquareIndex % 8];
+        set => TargetSquareIndex = 8 * value.Row + value.Col;
+    }
     
-    public ChessPiece MovedChessPiece;
-    public ChessPiece CapturedChessPiece;
+    public EChessPieceSpec MovedChessPieceSpec;
+    public EChessPieceSpec CapturedChessPieceSpec;
 
-    public ChessPiece CastleRook;
+    public ChessPiece MovedChessPiece
+    {
+        get => ChessPieceSpawner.Instance.AllPieces[MovedChessPieceSpec];
+    }
+
+    public ChessPiece CapturedChessPiece
+    {
+        get => ChessPieceSpawner.Instance.AllPieces[CapturedChessPieceSpec];
+    }
+    
+    public EChessPieceSpec CastleRookSpec;
+
+    public ChessPiece CastleRook
+    {
+        get => ChessPieceSpawner.Instance.AllPieces[CastleRookSpec];
+    }
     
     public bool IsChecked;
     public bool IsCaptured;
@@ -20,30 +48,47 @@ public class Move
     public bool IsEnpassant;
     
     public EChessPiece PromotionType;
+    
+    public bool IsNull;
 
-    public Move(String moveNotation, Square initialSquare, Square targetSquare, ChessPiece movedChessPiece,
-        ChessPiece capturedChessPiece, ChessPiece castleRook = null, bool isChecked = false, bool isCaptured = false, 
+    public Move(int initialSquareIndex, int targetSquareIndex, EChessPieceSpec movedChessPiece,
+        EChessPieceSpec capturedChessPiece, EChessPieceSpec castleRookSpec = new EChessPieceSpec(), bool isChecked = false, bool isCaptured = false, 
         bool isCastles = false, bool isCastlesKingSide = false, bool isPromotion = false, bool isEnpassant = false, 
         EChessPiece promotionType = EChessPiece.NONE)
-
     {
-        MoveNotation = moveNotation;
-        InitialSquare = initialSquare;
-        TargetSquare = targetSquare;
-        MovedChessPiece = movedChessPiece;
-        CapturedChessPiece = capturedChessPiece;
-        CastleRook = castleRook;
+        IsNull = false;
+        
+        //MoveNotation = moveNotation;
+        InitialSquareIndex = initialSquareIndex;
+        TargetSquareIndex = targetSquareIndex;
+        MovedChessPieceSpec = movedChessPiece;
+        CapturedChessPieceSpec = capturedChessPiece;
+        CastleRookSpec = castleRookSpec;
         IsChecked = isChecked;
         IsCaptured = isCaptured;
         IsCastles = isCastles;
         IsCastlesKingSide = isCastlesKingSide;
         IsPromotion = isPromotion;
-        PromotionType = promotionType;
         IsEnpassant = isEnpassant;
+        PromotionType = promotionType;
     }
 
-    public Move()
+    public Move(bool isNull)
     {
+        IsNull = isNull;
         
+        //MoveNotation = "";
+        InitialSquareIndex = 0;
+        TargetSquareIndex = 0;
+        MovedChessPieceSpec = new EChessPieceSpec();
+        CapturedChessPieceSpec = new EChessPieceSpec();
+        CastleRookSpec = new EChessPieceSpec();
+        IsChecked = false;
+        IsCaptured = false;
+        IsCastles = false;
+        IsCastlesKingSide = false;
+        IsPromotion = false;
+        IsEnpassant = false;
+        PromotionType = EChessPiece.NONE;
     }
 }

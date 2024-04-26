@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -7,6 +6,18 @@ public static class ChessBoardAPI
     private const string x = "x";
     private const string kingSideCastleNotation = "0-0";
     private const string queenSideCastleNotation = "0-0-0";
+    
+    static int[][] knightMoves = 
+    {
+        new int[] { 1, 2 },
+        new int[] { 2, 1 },
+        new int[] { -1, 2 },
+        new int[] { -2, 1 },
+        new int[] { 1, -2 },
+        new int[] { 2, -1 },
+        new int[] { -1, -2 },
+        new int[] { -2, -1 }
+    };
     
     public static bool IsInsideBounds(int row, int col) 
     {
@@ -37,7 +48,18 @@ public static class ChessBoardAPI
     {
         return Mathf.Sqrt(Mathf.Pow((square1.Row - square2.Row), 2) + Mathf.Pow((square1.Col - square2.Col), 2));
     }
-
+    
+    public static EChessPieceSpec GetChessPieceSpec(ChessPiece chessPiece)
+    {
+        if (chessPiece == null) return new EChessPieceSpec();
+        return new EChessPieceSpec(chessPiece.EColor, chessPiece.EChessPiece, chessPiece.PieceIndex);
+    }
+    
+    public static int GetSquare1DRep(Square square)
+    {
+        return 8 * square.Row + square.Col;
+    }
+    
     public static string GetSquareNotation(ChessPiece chessPiece, Square square)
     {
         return chessPiece.GetChessPieceNotationChar() + square.SquareNotation;
@@ -98,26 +120,25 @@ public static class ChessBoardAPI
                || (TurnController.Instance.CurrentTurn == EColor.BLACK) && (targetRow == 0);
     }
 
-    private static bool IsInvalidMove(Move move)
+    private static bool IsInvalidMove(ref Move move)
     {
-        ChessAPI.MakeAbstractMove(move);
+        ChessAPI.MakeAbstractMove(ref move);
         if (ChessAPI.IsCheckOpp())
         {
-            ChessAPI.UndoAbstractMove(move);
+            ChessAPI.UndoAbstractMove(ref move);
             return true;
         }
-        ChessAPI.UndoAbstractMove(move);
+        ChessAPI.UndoAbstractMove(ref move);
         return false;
     }
     
     /// <summary>
     /// Returns available squares to the right and left.
     /// </summary>
-    public static (Move[], Move[]) CheckHorizontalMoves(ChessPiece chessPiece, Square refSquare, int distance, EColor currentPlayerColor)
+    public static void CheckHorizontalMoves(ref Span<Move> legalMoves, ref int legalMoveIndex,
+        ref Span<Move> captureMoves, ref int captureMoveIndex, ChessPiece chessPiece, Square refSquare, 
+        int distance, EColor currentPlayerColor)
     {
-        List<Move> horizontalMoves = new List<Move>();
-        List<Move> horizontalCaptureMoves = new List<Move>();
-
         int refSquareRow = refSquare.Row;
         int refSquareCol = refSquare.Col;
 
@@ -132,40 +153,45 @@ public static class ChessBoardAPI
 
                 if (currentSquare.IsSquareEmpty())
                 {
-                    Move legalMove = new Move(GetSquareNotation(chessPiece, currentSquare),
-                        refSquare, currentSquare, chessPiece,
-                        null);
+                    Move legalMove = new Move(//GetSquareNotation(chessPiece, currentSquare),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare), 
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(null));
 
-                    if (IsInvalidMove(legalMove))
+                    if (IsInvalidMove(ref legalMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(legalMove))
+                    if (ChessAPI.IsMoveCheck(ref legalMove))
                     {
                         legalMove.IsChecked = true;
                     }
-                    
-                    horizontalMoves.Add(legalMove);
+
+                    legalMoves[legalMoveIndex++] = legalMove;
+                    //horizontalMoves.Add(legalMove);
                 }
                 else if (currentSquare.ChessPiece.EColor != currentPlayerColor) // Capture
                 {
-                    Move captureMove = new Move(GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
-                        refSquare, currentSquare, chessPiece,
-                        currentSquare.ChessPiece, isCaptured:true);
+                    Move captureMove = new Move(//GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare),
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(currentSquare.ChessPiece),
+                        isCaptured:true);
                     
-                    if (IsInvalidMove(captureMove))
+                    if (IsInvalidMove(ref captureMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(captureMove))
+                    if (ChessAPI.IsMoveCheck(ref captureMove))
                     {
                         captureMove.IsChecked = true;
                     }
+
+                    legalMoves[legalMoveIndex++] = captureMove;
+                    captureMoves[captureMoveIndex++] = captureMove;
                     
-                    horizontalMoves.Add(captureMove);
-                    horizontalCaptureMoves.Add(captureMove);
+                    //horizontalMoves.Add(captureMove);
+                    //horizontalCaptureMoves.Add(captureMove);
                     break;
                 }
                 else
@@ -184,40 +210,45 @@ public static class ChessBoardAPI
 
                 if (currentSquare.IsSquareEmpty())
                 {
-                    Move legalMove = new Move(GetSquareNotation(chessPiece, currentSquare),
-                        refSquare, currentSquare, chessPiece,
-                        null);
+                    Move legalMove = new Move(//GetSquareNotation(chessPiece, currentSquare),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare),
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(null));
                     
-                    if (IsInvalidMove(legalMove))
+                    if (IsInvalidMove(ref legalMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(legalMove))
+                    if (ChessAPI.IsMoveCheck(ref legalMove))
                     {
                         legalMove.IsChecked = true;
                     }
                     
-                    horizontalMoves.Add(legalMove);
+                    legalMoves[legalMoveIndex++] = legalMove;
+                    //horizontalMoves.Add(legalMove);
                 }
                 else if (currentSquare.ChessPiece.EColor != currentPlayerColor) // Capture
                 {
-                    Move captureMove = new Move(GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
-                        refSquare, currentSquare, chessPiece,
-                        currentSquare.ChessPiece, isCaptured:true);
+                    Move captureMove = new Move(//GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare), 
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(currentSquare.ChessPiece),
+                        isCaptured:true);
                     
-                    if (IsInvalidMove(captureMove))
+                    if (IsInvalidMove(ref captureMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(captureMove))
+                    if (ChessAPI.IsMoveCheck(ref captureMove))
                     {
                         captureMove.IsChecked = true;
                     }
                     
-                    horizontalMoves.Add(captureMove);
-                    horizontalCaptureMoves.Add(captureMove);
+                    legalMoves[legalMoveIndex++] = captureMove;
+                    captureMoves[captureMoveIndex++] = captureMove;
+                    
+                    //horizontalMoves.Add(captureMove);
+                    //horizontalCaptureMoves.Add(captureMove);
                     break;
                 }
                 else
@@ -226,18 +257,15 @@ public static class ChessBoardAPI
                 }
             }
         }
-        
-        return (horizontalMoves.ToArray(), horizontalCaptureMoves.ToArray());
     }
     
     /// <summary>
     /// Returns available squares to the up and down.
     /// </summary>
-    public static (Move[], Move[]) CheckVerticalMoves(ChessPiece chessPiece, Square refSquare, int distance, EColor currentPlayerColor)
+    public static void CheckVerticalMoves(ref Span<Move> legalMoves, ref int legalMoveIndex,
+        ref Span<Move> captureMoves, ref int captureMoveIndex, ChessPiece chessPiece, Square refSquare, 
+        int distance, EColor currentPlayerColor)
     {
-        List<Move> verticalMoves = new List<Move>();
-        List<Move> verticalCaptureMoves = new List<Move>();
-
         int refSquareRow = refSquare.Row;
         int refSquareCol = refSquare.Col;
 
@@ -252,41 +280,46 @@ public static class ChessBoardAPI
 
                 if (currentSquare.IsSquareEmpty())
                 {
-                    Move legalMove = new Move(GetSquareNotation(chessPiece, currentSquare),
-                        refSquare, currentSquare, chessPiece,
-                        null);
+                    Move legalMove = new Move(//GetSquareNotation(chessPiece, currentSquare),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare), 
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(null));
                     
-                    if (IsInvalidMove(legalMove))
+                    if (IsInvalidMove(ref legalMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(legalMove))
+                    if (ChessAPI.IsMoveCheck(ref legalMove))
                     {
                         legalMove.IsChecked = true;
                     }
-                    
-                    verticalMoves.Add(legalMove);
+
+                    legalMoves[legalMoveIndex++] = legalMove;
+                    //verticalMoves.Add(legalMove);
                 }
                 else if (chessPiece.EChessPiece != EChessPiece.PAWN &&
                          currentSquare.ChessPiece.EColor != currentPlayerColor) // Capture
                 {
-                    Move captureMove = new Move(GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
-                        refSquare, currentSquare, chessPiece,
-                        currentSquare.ChessPiece, isCaptured:true);
+                    Move captureMove = new Move(//GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare),
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(currentSquare.ChessPiece),
+                        isCaptured:true);
                     
-                    if (IsInvalidMove(captureMove))
+                    if (IsInvalidMove(ref captureMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(captureMove))
+                    if (ChessAPI.IsMoveCheck(ref captureMove))
                     {
                         captureMove.IsChecked = true;
                     }
                     
-                    verticalMoves.Add(captureMove);
-                    verticalCaptureMoves.Add(captureMove);
+                    legalMoves[legalMoveIndex++] = captureMove;
+                    captureMoves[captureMoveIndex++] = captureMove;
+                    
+                    //verticalMoves.Add(captureMove);
+                    //verticalCaptureMoves.Add(captureMove);
                     break;
                 }
                 else
@@ -305,41 +338,46 @@ public static class ChessBoardAPI
 
                 if (currentSquare.IsSquareEmpty())
                 {
-                    Move legalMove = new Move(GetSquareNotation(chessPiece, currentSquare),
-                        refSquare, currentSquare, chessPiece,
-                        null);
+                    Move legalMove = new Move(//GetSquareNotation(chessPiece, currentSquare),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare),
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(null));
                     
-                    if (IsInvalidMove(legalMove))
+                    if (IsInvalidMove(ref legalMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(legalMove))
+                    if (ChessAPI.IsMoveCheck(ref legalMove))
                     {
                         legalMove.IsChecked = true;
                     }
                     
-                    verticalMoves.Add(legalMove);
+                    legalMoves[legalMoveIndex++] = legalMove;
+                    //verticalMoves.Add(legalMove);
                 }
                 else if (chessPiece.EChessPiece != EChessPiece.PAWN &&
                          currentSquare.ChessPiece.EColor != currentPlayerColor) // Capture
                 {
-                    Move captureMove = new Move(GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
-                        refSquare, currentSquare, chessPiece,
-                        currentSquare.ChessPiece, isCaptured:true);
+                    Move captureMove = new Move(//GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare), 
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(currentSquare.ChessPiece),
+                        isCaptured:true);
                     
-                    if (IsInvalidMove(captureMove))
+                    if (IsInvalidMove(ref captureMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(captureMove))
+                    if (ChessAPI.IsMoveCheck(ref captureMove))
                     {
                         captureMove.IsChecked = true;
                     }
                     
-                    verticalMoves.Add(captureMove);
-                    verticalCaptureMoves.Add(captureMove);
+                    legalMoves[legalMoveIndex++] = captureMove;
+                    captureMoves[captureMoveIndex++] = captureMove;
+                    
+                    //verticalMoves.Add(captureMove);
+                    //verticalCaptureMoves.Add(captureMove);
                     break;
                 }
                 else
@@ -348,16 +386,13 @@ public static class ChessBoardAPI
                 }
             }
         }
-
-        return (verticalMoves.ToArray(), verticalCaptureMoves.ToArray());
     }
     
     
-    public static (Move[], Move[]) CheckDiagonalMoves(ChessPiece chessPiece, Square refSquare, int distance, EColor currentPlayerColor)
+    public static void CheckDiagonalMoves(ref Span<Move> legalMoves, ref int legalMoveIndex,
+        ref Span<Move> captureMoves, ref int captureMoveIndex, ChessPiece chessPiece, Square refSquare, 
+        int distance, EColor currentPlayerColor)
     {
-        List<Move> diagonalMoves = new List<Move>();
-        List<Move> diagonalCaptureMoves = new List<Move>();
-
         int refSquareRow = refSquare.Row;
         int refSquareCol = refSquare.Col;
 
@@ -372,40 +407,45 @@ public static class ChessBoardAPI
 
                 if (currentSquare.IsSquareEmpty())
                 {
-                    Move legalMove = new Move(GetSquareNotation(chessPiece, currentSquare),
-                        refSquare, currentSquare, chessPiece,
-                        null);
+                    Move legalMove = new Move(//GetSquareNotation(chessPiece, currentSquare),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare),
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(null));
                     
-                    if (IsInvalidMove(legalMove))
+                    if (IsInvalidMove(ref legalMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(legalMove))
+                    if (ChessAPI.IsMoveCheck(ref legalMove))
                     {
                         legalMove.IsChecked = true;
                     }
-                    
-                    diagonalMoves.Add(legalMove);
+
+                    legalMoves[legalMoveIndex++] = legalMove;
+                    //diagonalMoves.Add(legalMove);
                 }
                 else if (currentSquare.ChessPiece.EColor != currentPlayerColor) // Capture
                 {
-                    Move captureMove = new Move(GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
-                        refSquare, currentSquare, chessPiece,
-                        currentSquare.ChessPiece, isCaptured:true);
+                    Move captureMove = new Move(//GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare), 
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(currentSquare.ChessPiece),
+                        isCaptured:true);
                     
-                    if (IsInvalidMove(captureMove))
+                    if (IsInvalidMove(ref captureMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(captureMove))
+                    if (ChessAPI.IsMoveCheck(ref captureMove))
                     {
                         captureMove.IsChecked = true;
                     }
                     
-                    diagonalMoves.Add(captureMove);
-                    diagonalCaptureMoves.Add(captureMove);
+                    legalMoves[legalMoveIndex++] = captureMove;
+                    captureMoves[captureMoveIndex++] = captureMove;
+                    
+                    //diagonalMoves.Add(captureMove);
+                    //diagonalCaptureMoves.Add(captureMove);
                     break;
                 }
                 else
@@ -424,40 +464,45 @@ public static class ChessBoardAPI
 
                 if (currentSquare.IsSquareEmpty())
                 {
-                    Move legalMove = new Move(GetSquareNotation(chessPiece, currentSquare),
-                        refSquare, currentSquare, chessPiece,
-                        null);
+                    Move legalMove = new Move(//GetSquareNotation(chessPiece, currentSquare),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare),
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(null));
                     
-                    if (IsInvalidMove(legalMove))
+                    if (IsInvalidMove(ref legalMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(legalMove))
+                    if (ChessAPI.IsMoveCheck(ref legalMove))
                     {
                         legalMove.IsChecked = true;
                     }
                     
-                    diagonalMoves.Add(legalMove);
+                    legalMoves[legalMoveIndex++] = legalMove;
+                    //diagonalMoves.Add(legalMove);
                 }
                 else if (currentSquare.ChessPiece.EColor != currentPlayerColor) // Capture
                 {
-                    Move captureMove = new Move(GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
-                        refSquare, currentSquare, chessPiece,
-                        currentSquare.ChessPiece, isCaptured:true);
+                    Move captureMove = new Move(//GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare), 
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(currentSquare.ChessPiece),
+                        isCaptured:true);
                     
-                    if (IsInvalidMove(captureMove))
+                    if (IsInvalidMove(ref captureMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(captureMove))
+                    if (ChessAPI.IsMoveCheck(ref captureMove))
                     {
                         captureMove.IsChecked = true;
                     }
                     
-                    diagonalMoves.Add(captureMove);
-                    diagonalCaptureMoves.Add(captureMove);
+                    legalMoves[legalMoveIndex++] = captureMove;
+                    captureMoves[captureMoveIndex++] = captureMove;
+                    
+                    //diagonalMoves.Add(captureMove);
+                    //diagonalCaptureMoves.Add(captureMove);
                     break; 
                 }
                 else
@@ -476,40 +521,45 @@ public static class ChessBoardAPI
 
                 if (currentSquare.IsSquareEmpty())
                 {
-                    Move legalMove = new Move(GetSquareNotation(chessPiece, currentSquare),
-                        refSquare, currentSquare, chessPiece,
-                        null);
+                    Move legalMove = new Move(//GetSquareNotation(chessPiece, currentSquare),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare), 
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(null));
                     
-                    if (IsInvalidMove(legalMove))
+                    if (IsInvalidMove(ref legalMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(legalMove))
+                    if (ChessAPI.IsMoveCheck(ref legalMove))
                     {
                         legalMove.IsChecked = true;
                     }
                     
-                    diagonalMoves.Add(legalMove);
+                    legalMoves[legalMoveIndex++] = legalMove;
+                    //diagonalMoves.Add(legalMove);
                 }
                 else if (currentSquare.ChessPiece.EColor != currentPlayerColor) // Capture
                 {
-                    Move captureMove = new Move(GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
-                        refSquare, currentSquare, chessPiece,
-                        currentSquare.ChessPiece, isCaptured:true);
+                    Move captureMove = new Move(//GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare),
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(currentSquare.ChessPiece),
+                        isCaptured:true);
                     
-                    if (IsInvalidMove(captureMove))
+                    if (IsInvalidMove(ref captureMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(captureMove))
+                    if (ChessAPI.IsMoveCheck(ref captureMove))
                     {
                         captureMove.IsChecked = true;
                     }
                     
-                    diagonalMoves.Add(captureMove);
-                    diagonalCaptureMoves.Add(captureMove);
+                    legalMoves[legalMoveIndex++] = captureMove;
+                    captureMoves[captureMoveIndex++] = captureMove;
+                    
+                    //diagonalMoves.Add(captureMove);
+                    //diagonalCaptureMoves.Add(captureMove);
                     break; 
                 }
                 else
@@ -528,40 +578,45 @@ public static class ChessBoardAPI
 
                 if (currentSquare.IsSquareEmpty())
                 {
-                    Move legalMove = new Move(GetSquareNotation(chessPiece, currentSquare),
-                        refSquare, currentSquare, chessPiece,
-                        null);
+                    Move legalMove = new Move(//GetSquareNotation(chessPiece, currentSquare),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare),
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(null));
                     
-                    if (IsInvalidMove(legalMove))
+                    if (IsInvalidMove(ref legalMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(legalMove))
+                    if (ChessAPI.IsMoveCheck(ref legalMove))
                     {
                         legalMove.IsChecked = true;
                     }
                     
-                    diagonalMoves.Add(legalMove);
+                    legalMoves[legalMoveIndex++] = legalMove;
+                    //diagonalMoves.Add(legalMove);
                 }
                 else if (currentSquare.ChessPiece.EColor != currentPlayerColor) // Capture
                 {
-                    Move captureMove = new Move(GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
-                        refSquare, currentSquare, chessPiece,
-                        currentSquare.ChessPiece, isCaptured:true);
+                    Move captureMove = new Move(//GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare),
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(currentSquare.ChessPiece),
+                        isCaptured:true);
                     
-                    if (IsInvalidMove(captureMove))
+                    if (IsInvalidMove(ref captureMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(captureMove))
+                    if (ChessAPI.IsMoveCheck(ref captureMove))
                     {
                         captureMove.IsChecked = true;
                     }
                     
-                    diagonalMoves.Add(captureMove);
-                    diagonalCaptureMoves.Add(captureMove);
+                    legalMoves[legalMoveIndex++] = captureMove;
+                    captureMoves[captureMoveIndex++] = captureMove;
+                    
+                    //diagonalMoves.Add(captureMove);
+                    //diagonalCaptureMoves.Add(captureMove);
                     break;
                 }
                 else
@@ -570,18 +625,15 @@ public static class ChessBoardAPI
                 }
             }
         }
-
-        return (diagonalMoves.ToArray(), diagonalCaptureMoves.ToArray());
     }
     
     /// <summary>
     /// Returns all the tiles around.
     /// </summary>
-    public static (Move[], Move[]) CheckKingMoves(ChessPiece chessPiece, Square refSquare, int distance, EColor currentPlayerColor)
+    public static void CheckKingMoves(ref Span<Move> legalMoves, ref int legalMoveIndex,
+        ref Span<Move> captureMoves, ref int captureMoveIndex, ChessPiece chessPiece, Square refSquare, 
+        int distance, EColor currentPlayerColor)
     {
-        List<Move> checkAroundMoves = new List<Move>();
-        List<Move> checkAroundCaptureMoves = new List<Move>();
-        
         int refTileRow = refSquare.Row;
         int refTileCol = refSquare.Col;
 
@@ -601,21 +653,22 @@ public static class ChessBoardAPI
                                                        || j == refTileCol - distance 
                                                        || j == refTileCol + distance)
                         {
-                            Move legalMove = new Move(GetSquareNotation(chessPiece, currentSquare),
-                                refSquare, currentSquare, chessPiece,
-                                null);
+                            Move legalMove = new Move(//GetSquareNotation(chessPiece, currentSquare),
+                                GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare),
+                                GetChessPieceSpec(chessPiece), GetChessPieceSpec(null));
                             
-                            if (IsInvalidMove(legalMove))
+                            if (IsInvalidMove(ref legalMove))
                             {
                                 continue;
                             }
                             
-                            if (ChessAPI.IsMoveCheck(legalMove))
+                            if (ChessAPI.IsMoveCheck(ref legalMove))
                             {
                                 legalMove.IsChecked = true;
                             }
                             
-                            checkAroundMoves.Add(legalMove);
+                            legalMoves[legalMoveIndex++] = legalMove;
+                            //checkAroundMoves.Add(legalMove);
                         }
                     }
                     else if (currentSquare.ChessPiece.EColor != currentPlayerColor) // Capture
@@ -624,22 +677,25 @@ public static class ChessBoardAPI
                                                        || j == refTileCol - distance 
                                                        || j == refTileCol + distance)
                         {
-                            Move captureMove = new Move(GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
-                                refSquare, currentSquare, chessPiece,
-                                currentSquare.ChessPiece, isCaptured:true);
+                            Move captureMove = new Move(//GetSquareNotation(chessPiece, currentSquare, currentSquare.ChessPiece),
+                                GetSquare1DRep(refSquare), GetSquare1DRep(currentSquare),
+                                GetChessPieceSpec(chessPiece), GetChessPieceSpec(currentSquare.ChessPiece),
+                                isCaptured:true);
                             
-                            if (IsInvalidMove(captureMove))
+                            if (IsInvalidMove(ref captureMove))
                             {
                                 continue;
                             }
                             
-                            if (ChessAPI.IsMoveCheck(captureMove))
+                            if (ChessAPI.IsMoveCheck(ref captureMove))
                             {
                                 captureMove.IsChecked = true;
                             }
                             
-                            checkAroundMoves.Add(captureMove);
-                            checkAroundCaptureMoves.Add(captureMove);
+                            legalMoves[legalMoveIndex++] = captureMove;
+                            captureMoves[captureMoveIndex++] = captureMove;
+                            //checkAroundMoves.Add(captureMove);
+                            //checkAroundCaptureMoves.Add(captureMove);
                         }
                     }
                 }
@@ -653,13 +709,15 @@ public static class ChessBoardAPI
             {
                 Square kingsideRookSquare = GetKingSideCastleKingSquare();
                 
-                Move kingsideCastleMove = new Move(GerKingSideCastleNotation(),
-                    refSquare, kingsideRookSquare, chessPiece,
-                    null, castleRook:ChessAPI.GetRightRook(), isCastles: true, isCastlesKingSide:true);
+                Move kingsideCastleMove = new Move(//GerKingSideCastleNotation(),
+                    GetSquare1DRep(refSquare), GetSquare1DRep(kingsideRookSquare),
+                    GetChessPieceSpec(chessPiece), GetChessPieceSpec(null),
+                    castleRookSpec:GetChessPieceSpec(ChessAPI.GetRightRook()), isCastles: true, isCastlesKingSide:true);
                     
-                if (!IsInvalidMove(kingsideCastleMove))
+                if (!IsInvalidMove(ref kingsideCastleMove))
                 {
-                    checkAroundMoves.Add(kingsideCastleMove);
+                    legalMoves[legalMoveIndex++] = kingsideCastleMove;
+                    //checkAroundMoves.Add(kingsideCastleMove);
                 }
             }
             
@@ -667,43 +725,28 @@ public static class ChessBoardAPI
             {
                 Square queensideRookSquare = GetQueenSideCastleKingSquare();
                 
-                Move queensideCastleMove = new Move(GerQueenSideCastleNotation(),
-                    refSquare, queensideRookSquare, chessPiece,
-                    null, castleRook:ChessAPI.GetLeftRook(), isCastles: true);
+                Move queensideCastleMove = new Move(//GerQueenSideCastleNotation(),
+                    GetSquare1DRep(refSquare), GetSquare1DRep(queensideRookSquare), 
+                    GetChessPieceSpec(chessPiece), GetChessPieceSpec(null),
+                    castleRookSpec:GetChessPieceSpec(ChessAPI.GetLeftRook()), isCastles: true);
 
-                if (!IsInvalidMove(queensideCastleMove))
+                if (!IsInvalidMove(ref queensideCastleMove))
                 {
-                    checkAroundMoves.Add(queensideCastleMove);
+                    legalMoves[legalMoveIndex++] = queensideCastleMove;
+                    //checkAroundMoves.Add(queensideCastleMove);
                 }
             }
         }
-        
-        return (checkAroundMoves.ToArray(), checkAroundCaptureMoves.ToArray());
     }
-
-
+    
     /// <summary>
     /// 
     /// </summary>
-    public static (Move[], Move[]) CheckLMoves(ChessPiece chessPiece, Square refSquare, EColor currentPlayerColor)
+    public static void CheckLMoves(ref Span<Move> legalMoves, ref int legalMoveIndex,
+        ref Span<Move> captureMoves, ref int captureMoveIndex, ChessPiece chessPiece, Square refSquare, EColor currentPlayerColor)
     {
-        List<Move> LMoves = new List<Move>();
-        List<Move> LCaptureMoves = new List<Move>();
-    
         int refSquareRow = refSquare.Row;
         int refSquareCol = refSquare.Col;
-        
-        int[][] knightMoves = 
-        {
-            new int[] { 1, 2 },
-            new int[] { 2, 1 },
-            new int[] { -1, 2 },
-            new int[] { -2, 1 },
-            new int[] { 1, -2 },
-            new int[] { 2, -1 },
-            new int[] { -1, -2 },
-            new int[] { -2, -1 }
-        };
         
         foreach (var move in knightMoves)
         {
@@ -716,54 +759,54 @@ public static class ChessBoardAPI
                 
                 if (targetSquare.IsSquareEmpty())
                 {
-                    Move legalMove = new Move(GetSquareNotation(chessPiece, targetSquare),
-                        refSquare, targetSquare, chessPiece,
-                        null);
+                    Move legalMove = new Move(//GetSquareNotation(chessPiece, targetSquare),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(targetSquare), 
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(null));
                     
-                    if (IsInvalidMove(legalMove))
+                    if (IsInvalidMove(ref legalMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(legalMove))
+                    if (ChessAPI.IsMoveCheck(ref legalMove))
                     {
                         legalMove.IsChecked = true;
                     }
-                    
-                    LMoves.Add(legalMove);
+
+                    legalMoves[legalMoveIndex++] = legalMove;
+                    //LMoves.Add(legalMove);
                 }
                 
                 if (!targetSquare.IsSquareEmpty() && targetSquare.ChessPiece.EColor != currentPlayerColor)
                 {
-                    Move captureMove = new Move(GetSquareNotation(chessPiece, targetSquare, targetSquare.ChessPiece),
-                        refSquare, targetSquare, chessPiece,
-                        targetSquare.ChessPiece, isCaptured:true);
+                    Move captureMove = new Move(//GetSquareNotation(chessPiece, targetSquare, targetSquare.ChessPiece),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(targetSquare),
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(targetSquare.ChessPiece),
+                        isCaptured:true);
                     
-                    if (IsInvalidMove(captureMove))
+                    if (IsInvalidMove(ref captureMove))
                     {
                         continue;
                     }
                     
-                    if (ChessAPI.IsMoveCheck(captureMove))
+                    if (ChessAPI.IsMoveCheck(ref captureMove))
                     {
                         captureMove.IsChecked = true;
                     }
                     
-                    LMoves.Add(captureMove);
-                    LCaptureMoves.Add(captureMove); 
+                    legalMoves[legalMoveIndex++] = captureMove;
+                    captureMoves[captureMoveIndex++] = captureMove;
+                    //LMoves.Add(captureMove);
+                    //LCaptureMoves.Add(captureMove); 
                 }
             }
         }
-
-        return (LMoves.ToArray(), LCaptureMoves.ToArray());
     }
     
-    public static (Move[], Move[]) CheckPawnMoves(ChessPiece chessPiece, Square refSquare, EColor currentPlayerColor)
+    public static void CheckPawnMoves(ref Span<Move> legalMoves, ref int legalMoveIndex,
+        ref Span<Move> captureMoves, ref int captureMoveIndex, ChessPiece chessPiece, Square refSquare, EColor currentPlayerColor)
     {
         var chessPieceTypes = Enum.GetValues(typeof(EChessPiece));
-
-        List<Move> pawnMoves = new List<Move>();
-        List<Move> pawnCaptureMoves = new List<Move>();
 
         int refSquareRow = refSquare.Row;
         int refSquareCol = refSquare.Col;
@@ -781,7 +824,7 @@ public static class ChessBoardAPI
         }
         else
         {
-            return (Array.Empty<Move>(), Array.Empty<Move>());
+            return;
         }
 
         bool isPromotion = false;
@@ -803,37 +846,40 @@ public static class ChessBoardAPI
                         continue;
                     }
 
-                    Move legalMove = new Move(GetSquareNotation(chessPiece, targetSquare),
-                        refSquare, targetSquare, chessPiece,
-                        null, isPromotion: true, promotionType: (EChessPiece)chessPieceType);
+                    Move legalMove = new Move(//GetSquareNotation(chessPiece, targetSquare),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(targetSquare),
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(null),
+                        isPromotion: true, promotionType: (EChessPiece)chessPieceType);
 
-                    if (IsInvalidMove(legalMove))
+                    if (IsInvalidMove(ref legalMove))
                     {
                         continue;
                     }
 
-                    if (ChessAPI.IsMoveCheck(legalMove))
+                    if (ChessAPI.IsMoveCheck(ref legalMove))
                     {
                         legalMove.IsChecked = true;
                     }
 
-                    pawnMoves.Add(legalMove);
+                    legalMoves[legalMoveIndex++] = legalMove;
+                    //pawnMoves.Add(legalMove);
                 }
             }
             else
             {
-                Move legalMove = new Move(GetSquareNotation(chessPiece, targetSquare),
-                    refSquare, targetSquare, chessPiece,
-                    null);
+                Move legalMove = new Move(//GetSquareNotation(chessPiece, targetSquare),
+                    GetSquare1DRep(refSquare), GetSquare1DRep(targetSquare), 
+                    GetChessPieceSpec(chessPiece), GetChessPieceSpec(null));
 
-                if (!IsInvalidMove(legalMove))
+                if (!IsInvalidMove(ref legalMove))
                 {
-                    if (ChessAPI.IsMoveCheck(legalMove))
+                    if (ChessAPI.IsMoveCheck(ref legalMove))
                     {
                         legalMove.IsChecked = true;
                     }
-
-                    pawnMoves.Add(legalMove);
+                    
+                    legalMoves[legalMoveIndex++] = legalMove;
+                    //pawnMoves.Add(legalMove);
                 }
             }
         }
@@ -849,18 +895,19 @@ public static class ChessBoardAPI
 
             if (IsInsideBounds(twoSquaresForward, refSquareCol) && targetSquare.IsSquareEmpty())
             {
-                Move legalMove = new Move(GetSquareNotation(chessPiece, targetSquare),
-                    refSquare, targetSquare, chessPiece,
-                    null);
+                Move legalMove = new Move(//GetSquareNotation(chessPiece, targetSquare),
+                    GetSquare1DRep(refSquare), GetSquare1DRep(targetSquare),
+                    GetChessPieceSpec(chessPiece), GetChessPieceSpec(null));
 
-                if (!IsInvalidMove(legalMove))
+                if (!IsInvalidMove(ref legalMove))
                 {
-                    if (ChessAPI.IsMoveCheck(legalMove))
+                    if (ChessAPI.IsMoveCheck(ref legalMove))
                     {
                         legalMove.IsChecked = true;
                     }
-
-                    pawnMoves.Add(legalMove);
+                    
+                    legalMoves[legalMoveIndex++] = legalMove;
+                    //pawnMoves.Add(legalMove);
                 }
             }
         }
@@ -894,65 +941,72 @@ public static class ChessBoardAPI
                                 continue;
                             }
 
-                            Move captureMove = new Move(GetSquareNotation(chessPiece, targetSquare),
-                                refSquare, targetSquare, chessPiece,
-                                targetSquare.ChessPiece, isCaptured: true, isPromotion: true, promotionType: (EChessPiece)chessPieceType);
+                            Move captureMove = new Move(//GetSquareNotation(chessPiece, targetSquare),
+                                GetSquare1DRep(refSquare), GetSquare1DRep(targetSquare),
+                                GetChessPieceSpec(chessPiece), GetChessPieceSpec(targetSquare.ChessPiece),
+                                isCaptured: true, isPromotion: true, promotionType: (EChessPiece)chessPieceType);
 
-                            if (IsInvalidMove(captureMove))
+                            if (IsInvalidMove(ref captureMove))
                             {
                                 continue;
                             }
 
-                            if (ChessAPI.IsMoveCheck(captureMove))
+                            if (ChessAPI.IsMoveCheck(ref captureMove))
                             {
                                 captureMove.IsChecked = true;
                             }
-
-                            pawnMoves.Add(captureMove);
-                            pawnCaptureMoves.Add(captureMove);
+                            
+                            legalMoves[legalMoveIndex++] = captureMove;
+                            captureMoves[captureMoveIndex++] = captureMove;
+                            //pawnMoves.Add(captureMove);
+                            //pawnCaptureMoves.Add(captureMove);
                         }
                     }
                     else
                     {
-                        Move captureMove = new Move(GetSquareNotation(chessPiece, targetSquare),
-                            refSquare, targetSquare, chessPiece,
-                            targetSquare.ChessPiece, isCaptured: true);
+                        Move captureMove = new Move(//GetSquareNotation(chessPiece, targetSquare),
+                            GetSquare1DRep(refSquare), GetSquare1DRep(targetSquare),
+                            GetChessPieceSpec(chessPiece), GetChessPieceSpec(targetSquare.ChessPiece),
+                            isCaptured: true);
 
-                        if (IsInvalidMove(captureMove))
+                        if (IsInvalidMove(ref captureMove))
                         {
                             continue;
                         }
 
-                        if (ChessAPI.IsMoveCheck(captureMove))
+                        if (ChessAPI.IsMoveCheck(ref captureMove))
                         {
                             captureMove.IsChecked = true;
                         }
-
-                        pawnMoves.Add(captureMove);
-                        pawnCaptureMoves.Add(captureMove);
+                        
+                        legalMoves[legalMoveIndex++] = captureMove;
+                        captureMoves[captureMoveIndex++] = captureMove;
+                        //pawnMoves.Add(captureMove);
+                        //pawnCaptureMoves.Add(captureMove);
                     }
                 }
                 else if (targetSquare == enPassantSquare)
                 {
-                    Move enPassantMove = new Move(GetSquareNotation(chessPiece, targetSquare),
-                        refSquare, targetSquare, chessPiece,
-                        targetSquare.ChessPiece, isCaptured: true, isEnpassant: true);
+                    Move enPassantMove = new Move(//GetSquareNotation(chessPiece, targetSquare),
+                        GetSquare1DRep(refSquare), GetSquare1DRep(targetSquare),
+                        GetChessPieceSpec(chessPiece), GetChessPieceSpec(targetSquare.ChessPiece),
+                        isCaptured: true, isEnpassant: true);
 
-                    if (!IsInvalidMove(enPassantMove))
+                    if (!IsInvalidMove(ref enPassantMove))
                     {
-                        if (ChessAPI.IsMoveCheck(enPassantMove))
+                        if (ChessAPI.IsMoveCheck(ref enPassantMove))
                         {
                             enPassantMove.IsChecked = true;
                         }
-
-                        pawnMoves.Add(enPassantMove);
-                        pawnCaptureMoves.Add(enPassantMove);
+                        
+                        legalMoves[legalMoveIndex++] = enPassantMove;
+                        captureMoves[captureMoveIndex++] = enPassantMove;
+                        //pawnMoves.Add(enPassantMove);
+                        //pawnCaptureMoves.Add(enPassantMove);
                     }
                 }
             }
         }
-
-        return (pawnMoves.ToArray(), pawnCaptureMoves.ToArray());
     }
 
     public static bool CanHorizontallyThreat(Square initialSquare, Square targetSquare)
@@ -1047,6 +1101,11 @@ public static class ChessBoardAPI
     {
         int rowDiff = Math.Abs(initialSquare.Row - targetSquare.Row);
         int colDiff = Math.Abs(initialSquare.Col - targetSquare.Col);
+
+        //if (initialSquare.ChessPiece == null)
+        //{
+        //    return false;
+        //}
         
         if (initialSquare.ChessPiece.EColor == EColor.WHITE)
         {
@@ -1084,8 +1143,8 @@ public static class ChessBoardAPI
     private static Square CalculateEnPassantSquare()
     {
         Move lastMove = ChessAPI.GetLastMove();
-
-        if (lastMove != null && lastMove.MovedChessPiece is Pawn &&
+        
+        if (!lastMove.IsNull && lastMove.MovedChessPiece is Pawn &&
             Math.Abs(lastMove.InitialSquare.Row - lastMove.TargetSquare.Row) == 2)
         {
             if (lastMove.TargetSquare.Row == lastMove.InitialSquare.Row &&

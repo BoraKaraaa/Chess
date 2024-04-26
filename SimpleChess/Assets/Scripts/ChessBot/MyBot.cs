@@ -9,17 +9,17 @@ public class MyBot : ChessBot
     {
         -4, -4, -4, -3, -3, -4, -4, -4,
         -4, -4, -4, -3, -3, -4, -4, -4,
-        -4, -2, -1, -2, -2, -1, -2, -4,
+        -4, -2, -2, -3, -3, -2, -2, -4,
         -4, -2, -1,  0,  0, -1, -2, -4,
         -4, -2, -1,  0,  0, -1, -2, -4,
-        -4, -2, -1, -2, -2, -1, -2, -4,
+        -4, -2, -2, -3, -3, -2, -2, -4,
         -4, -4, -4, -3, -3, -4, -4, -4,
         -4, -4, -4, -3, -3, -4, -4, -4
     };
     
     private class MoveNode
     {
-        public readonly Move Move;
+        public Move Move;
         public readonly MoveNode ParentMoveNode;
         public MoveNode[] ChildMoves;
         public int HeuristicVal;
@@ -42,12 +42,25 @@ public class MyBot : ChessBot
     private const int ABSOLUTE_WIN = 30;
 
     private const int MIN_CALC_MOVE = 4;
-    
-    public override Move BestMove()
-    {
-        return CalculateNDepthMoves(MIN_CALC_MOVE); // + (int)(2 * ChessAPI.GetLateGameRate()));
-    }
 
+    private ChessGameManager localChessGameManager;
+    
+    public override Move BestMove(ChessGameManager chessGameManager)
+    {
+        localChessGameManager = chessGameManager;
+        
+        int depth = CalculateDynamicDepth();
+        return CalculateNDepthMoves(depth); // + (int)(2 * ChessAPI.GetLateGameRate()));
+    }
+    
+    private int CalculateDynamicDepth()
+    {
+        int totalPieces = ChessAPI.GetMyPieces().Count + ChessAPI.GetOpponentPieces().Count;
+        if (totalPieces < 12) return MIN_CALC_MOVE + 2; 
+        if (totalPieces < 20) return MIN_CALC_MOVE + 1;
+        return MIN_CALC_MOVE;
+    }
+    
     private Move CalculateNDepthMoves(int depth)
     {
         MoveNode rootMove = new MoveNode(null, new MoveNode(), new Move(), 0, 0);
@@ -64,7 +77,7 @@ public class MyBot : ChessBot
     
     private void GenerateChildrenMoveNodes(MoveNode parentMoveNode)
     {
-        (Move[], Move[]) allMoves = ChessAPI.GetLegalAndCaptureMoves();
+        (Move[], Move[]) allMoves = localChessGameManager.GetLegalAndCaptureMoves();
 
         parentMoveNode.ChildMoves = new MoveNode[allMoves.Item1.Length];
 
@@ -155,6 +168,14 @@ public class MyBot : ChessBot
 
     private int GetPushKingCornerHeuristic()
     {
+        int myPiecesCount = ChessAPI.GetMyPieces().Count;
+        int opponentPiecesCount = ChessAPI.GetOpponentPieces().Count;
+        
+        if (!(myPiecesCount <= 5 || opponentPiecesCount <= 5))
+        {
+            return 0;
+        }
+        
         King oppKing = (King)ChessAPI.GetOpponentKing();
         return (int)((8 - Math.Min(7 - oppKing.Square.Row, oppKing.Square.Row) + Math.Min(7 - oppKing.Square.Col, oppKing.Square.Col)) 
                      * 5 * ChessAPI.GetLateGameRate() * ChessAPI.GetLateGameRate());
@@ -166,7 +187,7 @@ public class MyBot : ChessBot
 
         isCheck = false;
         
-        if (ChessAPI.IsCheckMate())
+        if (localChessGameManager.IsCheckMate())
         {
             if (IsIPlaying(moveNode.Depth))
             {
@@ -181,10 +202,14 @@ public class MyBot : ChessBot
             isCheck = true;
             totalHeuristicVal += 3;
         }
-
+        
+        
+        totalHeuristicVal += IsIPlaying(moveNode.Depth) ? GetPushKingCornerHeuristic() : -GetPushKingCornerHeuristic();   
+        
+        
         List<ChessPiece> chessPieces = null;
         List<ChessPiece> oppChessPieces = null;
-        
+            
         if (IsIPlaying(moveNode.Depth))
         {
             chessPieces = ChessAPI.GetMyPieces();
@@ -195,9 +220,7 @@ public class MyBot : ChessBot
             chessPieces = ChessAPI.GetOpponentPieces();
             oppChessPieces = ChessAPI.GetMyPieces();
         }
-        
-        // feature
-        // totalHeuristicVal += IsIPlaying(moveNode.Depth) ? GetPushKingCornerHeuristic() : -GetPushKingCornerHeuristic();    
+    
         
         foreach (var chessPiece in chessPieces)
         {
@@ -247,7 +270,7 @@ public class MyBot : ChessBot
                 : PiecePositionalVals[oppChessPiece.Square.Row * 8 + oppChessPiece.Square.Col];
         }
             
-        if (ChessAPI.IsDraw())
+        if (localChessGameManager.IsDraw())
         {
             if (IsIPlaying(moveNode.Depth))
             {
@@ -275,8 +298,8 @@ public class MyBot : ChessBot
     
     private MoveNode MiniMax(MoveNode moveNode, int depth, int alpha, int beta, bool maximizingPlayer)
     {
-        bool isCheckMate = ChessAPI.IsCheckMate();
-        bool isDraw = ChessAPI.IsDraw();
+        bool isCheckMate = localChessGameManager.IsCheckMate();
+        bool isDraw = localChessGameManager.IsDraw();
 
         if (depth == 0 || isCheckMate || isDraw)
         {
@@ -311,9 +334,9 @@ public class MyBot : ChessBot
             
             foreach (var childMove in moveNode.ChildMoves)
             {
-                ChessAPI.MakeAbstractMove(childMove.Move);
+                localChessGameManager.MakeAbstractMove(ref childMove.Move);
                 MoveNode resMoveNode = MiniMax(childMove, depth - 1, alpha, beta, false);
-                ChessAPI.UndoAbstractMove(childMove.Move);
+                localChessGameManager.UndoAbstractMove(ref childMove.Move);
                 
                 if (localMoveNode.HeuristicVal < resMoveNode.HeuristicVal)
                 {
@@ -334,9 +357,9 @@ public class MyBot : ChessBot
             
             foreach (var childMove in moveNode.ChildMoves)
             {
-                ChessAPI.MakeAbstractMove(childMove.Move);
+                localChessGameManager.MakeAbstractMove(ref childMove.Move);
                 MoveNode resMoveNode = MiniMax(childMove, depth - 1, alpha, beta, true);
-                ChessAPI.UndoAbstractMove(childMove.Move);
+                localChessGameManager.UndoAbstractMove(ref childMove.Move);
                 
                 if (localMoveNode.HeuristicVal > resMoveNode.HeuristicVal)
                 {

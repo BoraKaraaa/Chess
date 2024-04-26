@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Collections;
+using System.Threading;
 using TMPro;
 
 public enum EColor
@@ -24,6 +26,8 @@ public class TurnController : Singleton<TurnController>
     [SerializeField] private TMP_Text gameResultText;
         
     [SerializeField] private List<GameObject> deactivateUIElements;
+
+    private ChessGameManager chessGameManager;
     
     public Action ChessMatchStarted;
     public Action ChessMatchResumed;
@@ -108,16 +112,18 @@ public class TurnController : Singleton<TurnController>
 
         if (gameMode == EGameMode.PLAYERvsBOT)
         {
-            PlayervsBot();
+            PlayerVsBot();
         }
         else
         {
-            BotvsBot();
+            BotVsBot();
         }
     }
 
     private void Restart()
     {
+        chessGameManager = new ChessGameManager();
+        
         gameResultText.text = String.Empty;
 
         if (!FENstringController.IsFenStringValid)
@@ -131,19 +137,19 @@ public class TurnController : Singleton<TurnController>
         currentTurn = EColor.WHITE;
     }
     
-    private void BotvsBot()
+    private void BotVsBot()
     {
         if (currentTurn == EColor.WHITE)
         {
-            whiteChessBot.Move(OnMoveMade);
+            whiteChessBot.Move(chessGameManager, OnMoveMade);
         }
         else
         {
-            blackChessBot.Move(OnMoveMade);
+            blackChessBot.Move(chessGameManager, OnMoveMade);
         }
     }
     
-    private void PlayervsBot()
+    private void PlayerVsBot()
     {
         OnTurn?.Invoke(currentTurn);
             
@@ -151,22 +157,22 @@ public class TurnController : Singleton<TurnController>
         {
             if (player.EColor == EColor.WHITE)
             {
-                player.PlayerTurn(OnMoveMade);
+                player.PlayerTurn(chessGameManager, OnMoveMade);
             }
             else
             {
-                whiteChessBot.Move(OnMoveMade);
+                whiteChessBot.Move(chessGameManager, OnMoveMade);
             }
         }
         else
         {
             if (player.EColor == EColor.BLACK)
             {
-                player.PlayerTurn(OnMoveMade);
+                player.PlayerTurn(chessGameManager, OnMoveMade);
             }
             else
             {
-                whiteChessBot.Move(OnMoveMade);
+                whiteChessBot.Move(chessGameManager, OnMoveMade);
             }
         }
     }
@@ -174,6 +180,7 @@ public class TurnController : Singleton<TurnController>
     private void OnMoveMade(Move move)
     {
         StopAllCoroutines();
+        chessGameManager.PositionChanged();
         
         moveHistoryList.Add(move);
 
@@ -182,7 +189,7 @@ public class TurnController : Singleton<TurnController>
         UpdateBoardStateString();
         UpdateFiftyMoveCounter();
         
-        if (ChessAPI.IsDraw())
+        if (chessGameManager.IsDraw())
         {
             gameResultText.text = "DRAW";
             AudioManager.Instance.CheckMateAudioSource.Play();
@@ -192,15 +199,15 @@ public class TurnController : Singleton<TurnController>
             return;
         }
         
-        if (!ChessAPI.IsCheckMate())
+        if (!chessGameManager.IsCheckMate())
         {
             if (gameMode == EGameMode.PLAYERvsBOT)
             {
-                PlayervsBot();
+                PlayerVsBot();
             }
             else
             {
-                BotvsBot();
+                BotVsBot();
             }
         }
         else

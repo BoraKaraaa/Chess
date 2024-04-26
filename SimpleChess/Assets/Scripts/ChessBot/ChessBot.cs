@@ -4,12 +4,13 @@ using UnityEngine;
 public abstract class ChessBot : MonoBehaviour, IChessBot
 {
     [HideInInspector] public EColor EColor;
+    [SerializeField] private bool enableNotationDebug;
     
-    public abstract Move BestMove();
+    public abstract Move BestMove(ChessGameManager chessGameManager);
 
-    public void Move(Action<Move> OnMoveMade)
+    public void Move(ChessGameManager chessGameManager, Action<Move> OnMoveMade)
     {
-        Move bestMove = BestMove();
+        Move bestMove = BestMove(chessGameManager);
         
         this.WaitForSeconds(0.1f, () =>
         {
@@ -20,8 +21,10 @@ public abstract class ChessBot : MonoBehaviour, IChessBot
             
             bestMove.MovedChessPiece.Move(bestMove, OnMoveMade); 
         });
-        
-        // Debug
-        //Debug.Log(bestMove.MoveNotation);
+
+        if (enableNotationDebug)
+        {
+           //Debug.Log(bestMove.MoveNotation);
+        }
     }
 }

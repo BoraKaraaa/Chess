@@ -1,12 +1,14 @@
-
 using Unity.VisualScripting;
 using UnityEngine;
+using System;
 
 public class Pawn : ChessPiece
 {
-    public override (Move[], Move[]) GetLegalMoves()
+    public override void GetLegalAndCaptureMoves(ref Span<Move> legalMoves, ref int legalMoveIndex,
+        ref Span<Move> captureMoves, ref int captureMoveIndex)
     {
-        return ChessBoardAPI.CheckPawnMoves(this, square, eColor);
+        ChessBoardAPI.CheckPawnMoves(ref legalMoves, ref legalMoveIndex, ref captureMoves, ref captureMoveIndex,
+            this, square, eColor);
     }
 
     public override bool CanThreatSquare(Square targetSquare)
