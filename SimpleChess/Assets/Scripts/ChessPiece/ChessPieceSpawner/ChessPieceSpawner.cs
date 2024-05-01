@@ -24,6 +24,16 @@ public struct EChessPieceSpec
     {
         return !(c1 == c2);
     }
+
+    public override bool Equals(object obj)
+    {
+        return this == (EChessPieceSpec)obj;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }
 
 public class ChessPieceSpecComparer : IEqualityComparer<EChessPieceSpec>

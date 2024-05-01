@@ -41,7 +41,7 @@ public class MyBot : ChessBot
     
     private const int ABSOLUTE_WIN = 30;
 
-    private const int MIN_CALC_MOVE = 4;
+    private const int MIN_CALC_MOVE = 3;
 
     private ChessGameManager localChessGameManager;
     
@@ -68,6 +68,11 @@ public class MyBot : ChessBot
         
         while (resMoveNode.Depth != 1)
         {
+            if (resMoveNode.ParentMoveNode == null)
+            {
+                break;
+            }
+            
             resMoveNode = resMoveNode.ParentMoveNode;
         }
         

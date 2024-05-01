@@ -1,12 +1,8 @@
 
 public struct Move
 {
-    //public String MoveNotation;
-
     public int InitialSquareIndex; 
     public int TargetSquareIndex; 
-    //public Square InitialSquare;
-    //public Square TargetSquare;
 
     public Square InitialSquare
     {
@@ -58,7 +54,6 @@ public struct Move
     {
         IsNull = false;
         
-        //MoveNotation = moveNotation;
         InitialSquareIndex = initialSquareIndex;
         TargetSquareIndex = targetSquareIndex;
         MovedChessPieceSpec = movedChessPiece;
@@ -77,7 +72,6 @@ public struct Move
     {
         IsNull = isNull;
         
-        //MoveNotation = "";
         InitialSquareIndex = 0;
         TargetSquareIndex = 0;
         MovedChessPieceSpec = new EChessPieceSpec();

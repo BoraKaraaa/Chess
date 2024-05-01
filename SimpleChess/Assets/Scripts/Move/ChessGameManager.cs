@@ -63,7 +63,6 @@ public class ChessGameManager
             cachedMoveCount = legalMoves.Length;
             
             isMovesCached = true;
-
             isMoveCountCached = true;
         }
 
